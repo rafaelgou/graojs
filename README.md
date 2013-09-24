@@ -32,10 +32,10 @@ aptitude install nodejs mongodb npm
 ##### RedHat like:
 yum install nodejs mongodb npm
 
-##### GrãoJS install:
+##### GrãoJS install and run:
 npm install graojs
-chmod 755 grao.sh
-./grao.sh
+cp node_modules/graojs/config/config-dist.js node_modules/graojs/config/config.js
+npm run-script graojs start
 
 We'll fix install process with npm bin and distro packages.
 
