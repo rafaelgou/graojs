@@ -27,15 +27,15 @@ GrãoJS work with:
 #### INSTALL
 
 ##### Debian like:
-aptitude install nodejs mongodb npm 
+-	aptitude install nodejs mongodb npm 
 
 ##### RedHat like:
-yum install nodejs mongodb npm
+-	yum install nodejs mongodb npm
 
 ##### GrãoJS install and run:
-npm install graojs
-cp node_modules/graojs/config/config-dist.js node_modules/graojs/config/config.js
-npm run-script graojs start
+-	npm install graojs
+-	cp node_modules/graojs/config/config-dist.js node_modules/graojs/config/config.js
+-	npm run-script graojs start
 
 We'll fix install process with npm bin and distro packages.
 
