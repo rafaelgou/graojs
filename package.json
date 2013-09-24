@@ -22,7 +22,7 @@
 	    "i18n" : "0.4.x",
 	    "underscore" : "1.5.x",
 	    "jade" : "0.35.x"
-  }
+  },
   "keywords": [
     "framework",
     "mvc",
@@ -36,8 +36,8 @@
     "scaffolding",
     "ria"
   ],
-  "repository"    : {"type": "git", "url": "git://github.com/synackbr/graojs.git"},
-  "bugs" : { "url" : "https://github.com/synackbr/graojs/issues"},
+  "repository"    : { "type": "git", "url": "git://github.com/synackbr/graojs.git" },
+  "bugs" : { "url" : "https://github.com/synackbr/graojs/issues" },
   "main": "grao",
-  "bin": { "grao": "./bin/grao" },
+  "bin": { "grao": "./bin/grao" }
 }
