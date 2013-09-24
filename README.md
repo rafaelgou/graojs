@@ -22,7 +22,7 @@ GrãoJS work with:
 -	Template Engine (jade, but if you prefer others engines, it's very simple support it)
 -	Internationalization (nodejs i18n)
 
-We'll see you at October 15, 2013! Pay attention! GrãoJS Comming Soon!
+### We'll see you at October 15, 2013! Pay attention! GrãoJS Comming Soon!
 
 
 License
