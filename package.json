@@ -1,7 +1,7 @@
 {
   "name": "graojs",
   "description": "GrãoJS - A full stack MVC NodeJS framework",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "author": "Marcelo M. Fleury <marcelomf@gmail.com>",
   "contributors": [ { } ],
   "licenses": [
@@ -10,6 +10,7 @@
 	     "url": "https://github.com/synackbr/graojs/raw/master/LICENSE"
 	   }
   ],
+  "readme" : "README.md",
   "dependencies": {
 	    "winston": "0.7.x",
 	    "express": "3.x",
@@ -21,6 +22,7 @@
 	    "email-templates": "0.1.x",
 	    "i18n" : "0.4.x",
 	    "underscore" : "1.5.x",
+	    "lazy" : "1.0.x",
 	    "jade" : "0.35.x"
   },
   "keywords": [
@@ -39,5 +41,12 @@
   "repository"    : { "type": "git", "url": "git://github.com/synackbr/graojs.git" },
   "bugs" : { "url" : "https://github.com/synackbr/graojs/issues" },
   "main": "grao",
-  "bin": { "grao": "./bin/grao" }
+  "scripts": {
+	"start": "./bin/grao.sh start",
+	"stop": "./bin/grao.sh stop",
+	"restart": "./bin/grao.sh restart"
+  },
+  "engines": {
+    "node": ">= 0.8.x"
+  }
 }

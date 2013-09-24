@@ -1,6 +1,3 @@
-/**
- * Need implement autoloader
- */
 var http = require('http')
 	,express = require('express')	
 	,grao = express()
