@@ -1,4 +1,4 @@
-var business = {
+var businessMethods = {
 		
 	businessLogic1 : function() {
 		
@@ -19,7 +19,7 @@ var business = {
 
 var UserModel = function(di) {
 
-	this.business = di.schemas.user.mongoose.methods = business;
+	this.business = di.schemas.user.mongoose.methods = businessMethods;
 	return di.mongoose.model("User", di.schemas.user.mongoose);
 };
 

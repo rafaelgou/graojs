@@ -54,7 +54,7 @@ var GraoKernel = function(di) {
 		event: this.event
 	});
 
-	this.routes = function(di) {
+	this.routes = function() {
 		return new (require('./route'))({
 			event: this.event,
 			grao : this.grao,
