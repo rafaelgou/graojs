@@ -83,7 +83,6 @@ var service = {
 				try {
 					//user.businessLogic1();
 					//user.businessLogic2();
-					
 					console.log(user.businessLogic1()+user.businessLogic2());
 					
 					event.newEvent({
