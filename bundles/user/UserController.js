@@ -9,17 +9,12 @@ var models,
 var service = {
 
 	get : function(req, res) {
-		test = event.newEvent({
-			name: 'kernel\.controllers\.service\.user\.get', 
-			message: 'called'
-		}).success().present().log('info');
-		
-		User.findOne({_id : req.params.id}, function(err, user) {
+			User.findOne({_id : req.params.id}, function(err, user) {
 			if (err)
 			{
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.get', 
-					message: 'Error: '+err
+					message: err
 				}).error().present().log('error');
 				
 				res.jsonp(user);
@@ -31,21 +26,15 @@ var service = {
 
 	query : function(req, res) {
 		
-		event.newEvent({
-			name: 'kernel\.controllers\.service\.user\.query', 
-			message: 'called'
-		}).success().present().log('info');
-		
 		User.find().sort('-created').populate('user').exec(function(err, users) {
 			if (err) {
 				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.query', 
-					message: 'Error: '+err
+					message: err
 				}).error().present().log('error');
 				
 				res.end();
-				//res.render('error', {status : 500});
 			} else {
 				
 				res.jsonp(users);
@@ -57,25 +46,20 @@ var service = {
 
 	create : function(req, res) {
 		
-		event.newEvent({
-			name: 'kernel\.controllers\.service\.user\.create', 
-			message: 'called.'
-		}).success().present().log('info');
-		
 		user = new User(req.body);
 		user.save(function(err) {
 			if (err) {
 				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.create', 
-					message: 'Errpr: '+err
+					message: err
 				}).error().present().log('error');
 				
 			} else {
 				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.create', 
-					message: 'Success created'
+					message: 'created'
 				}).success().present().log('info');
 				
 			}
@@ -85,11 +69,6 @@ var service = {
 	},
 
 	update : function(req, res) {
-		event.newEvent({
-			name: 'kernel\.controllers\.service\.user\.update', 
-			message: 'called'
-		}).success().present().log('info');
-		
 		//console.log(req.body); // {upsert: true} {new: true}
 		delete req.body._id; // it's necessary findOneAndRemove
 		User.findOneAndUpdate({_id : req.params.id }, req.body, { upsert : true }, function(err, user) {
@@ -109,14 +88,14 @@ var service = {
 					
 					event.newEvent({
 						name: 'kernel\.controllers\.service\.user\.update', 
-						message: 'Success updated'
+						message: 'updated'
 					}).success().present().log('info');
 					
 				} catch(err) {
 					
 					event.newEvent({
 						name: 'kernel\.controllers\.service\.user\.update', 
-						message: 'Exception: '+err
+						message: err
 					}).error().present().log('error');
 					
 				}
@@ -126,26 +105,20 @@ var service = {
 		res.end();
 	},
 
-	destroy : function(req, res) {
-		event.newEvent({
-			name: 'kernel\.controllers\.service\.user\.destroy', 
-			message: 'called'
-		}).success().present().log('info');
-		
+	destroy : function(req, res) {	
 		User.remove({_id : req.params.id}, function(err) {
 			if (err) {
 				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.destroy', 
-					message: 'Error: '+err
+					message: err
 				}).error().present().log('error');
 				
 				//return handleError(err);
 			} else {
-				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.destroy', 
-					message: 'Success destroyed'
+					message: 'destroyed'
 				}).success().present().log('info');
 				
 			}
@@ -157,12 +130,6 @@ var service = {
 
 var admin = {
 	dashboard : function(req, res) {
-		
-		event.newEvent({
-			name: 'kernel\.controllers\.admin\.dashboard', 
-			message: 'called'
-		}).success().present().log('info');
-		
 		res.render('user/view/dashboard');
 	}
 };

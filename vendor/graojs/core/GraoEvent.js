@@ -163,13 +163,11 @@ var GraoEvent = function(di) {
 	
 	// Need implement default log level on config file
 	this.log = function(level) {
-		$.logger.log(level, this.message);
+		$.logger.log(level, this.name+": "+this.message);
 		return this;
 	};
 	
 	$.stateTime();
-	
-	this.message = this.name+": "+this.message;
 	
 	this.last = this;
 	handle.events.push(this.last);
