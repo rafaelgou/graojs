@@ -1,9 +1,10 @@
 var fs = require('fs'), 
 	path = require('path'), 
-	rootPath = path.normalize(__dirname) + '/..';
+	rootPath = path.normalize(__dirname) + '/..',
+	packageJson = JSON.parse(fs.readFileSync(rootPath+'/package.json', 'utf-8'));
 
 module.exports = exports = {
-	packageJson: JSON.parse(fs.readFileSync(rootPath+'/package.json', 'utf-8')),
+	packageJson: packageJson,
 	port : 80,
 	db : 'mongodb://localhost/grao',
 	rootPath : rootPath,

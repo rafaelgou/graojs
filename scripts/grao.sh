@@ -3,7 +3,7 @@ startGraoJS()
 {
 	sudo service mongod start
 	#sudo service nginx start
-	sudo node ./grao.js > ./log/grao.log 2>&1 &
+	sudo node ./.././index.js > ./../log/grao.log 2>&1 &
 	tail -f ./log/grao.log
 }
 

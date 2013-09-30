@@ -1,10 +1,10 @@
 var args = process.argv.slice(2);
-var bundleName;
+var name;
 
 for ( var i = 0; i < args.length; i++) {
 	switch (args[i]) {
 	case '--name':
-		bundleName = args[i + 1];
+		name = args[i + 1];
 	}
 };
 
