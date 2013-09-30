@@ -1,13 +1,12 @@
 // Glocal Scope :)
 var models, 
 	controllers,
-	logger,
 	event,
 	user, // object
 	User; // object/class
 
 var service = {
-
+		
 	get : function(req, res) {
 			User.findOne({_id : req.params.id}, function(err, user) {
 			if (err)
@@ -28,40 +27,31 @@ var service = {
 		
 		User.find().sort('-created').populate('user').exec(function(err, users) {
 			if (err) {
-				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.query', 
 					message: err
 				}).error().present().log('error');
-				
 				res.end();
 			} else {
-				
 				res.jsonp(users);
 				res.end();
-				
 			}
 		});
 	},
 
 	create : function(req, res) {
-		
 		user = new User(req.body);
 		user.save(function(err) {
 			if (err) {
-				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.create', 
 					message: err
 				}).error().present().log('error');
-				
 			} else {
-				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.create', 
 					message: 'created'
 				}).success().present().log('info');
-				
 			}
 		});
 		
@@ -69,60 +59,44 @@ var service = {
 	},
 
 	update : function(req, res) {
-		//console.log(req.body); // {upsert: true} {new: true}
-		delete req.body._id; // it's necessary findOneAndRemove
+		delete req.body._id;
 		User.findOneAndUpdate({_id : req.params.id }, req.body, { upsert : true }, function(err, user) {
 			if (err) {
-				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.update', 
 					message: err
 				}).error().present().log('error');
-				
 			} else {
 				try {
-					//user.businessLogic1();
-					//user.businessLogic2();
-					console.log(user.businessLogic1()+user.businessLogic2());
-					
 					event.newEvent({
 						name: 'kernel\.controllers\.service\.user\.update', 
 						message: 'updated'
 					}).success().present().log('info');
-					
 				} catch(err) {
-					
 					event.newEvent({
 						name: 'kernel\.controllers\.service\.user\.update', 
 						message: err
 					}).error().present().log('error');
-					
 				}
 			}
 		});
-		
 		res.end();
 	},
 
 	destroy : function(req, res) {	
 		User.remove({_id : req.params.id}, function(err) {
 			if (err) {
-				
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.destroy', 
 					message: err
 				}).error().present().log('error');
-				
-				//return handleError(err);
 			} else {
 				event.newEvent({
 					name: 'kernel\.controllers\.service\.user\.destroy', 
 					message: 'destroyed'
 				}).success().present().log('info');
-				
 			}
 		});
-		
 		res.end();
 	}
 };
