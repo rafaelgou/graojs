@@ -2,7 +2,7 @@ var businessMethods = {
 		
 	businessLogic1 : function() {
 		
-		return 1+this.businessLogic2();
+		return(1+this.businessLogic2())+this.username;
 	},
 
 	businessLogic2 : function() {
