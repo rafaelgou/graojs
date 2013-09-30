@@ -13,7 +13,7 @@ function UserPublicController($scope, user, share, $log)
 		$scope.query();
 	};
 	
-	$scope.del = function(index)
+	$scope.destroy = function(index)
 	{
 		//var id = $scope.items[index]._id;
 		$scope.items[index].$delete();

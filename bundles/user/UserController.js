@@ -126,9 +126,9 @@ var service = {
 		res.end();
 	},
 
-	del : function(req, res) {
+	destroy : function(req, res) {
 		event.newEvent({
-			name: 'kernel\.controllers\.service\.user\.del', 
+			name: 'kernel\.controllers\.service\.user\.destroy', 
 			message: 'called'
 		}).success().present().log('info');
 		
@@ -136,7 +136,7 @@ var service = {
 			if (err) {
 				
 				event.newEvent({
-					name: 'kernel\.controllers\.service\.user\.del', 
+					name: 'kernel\.controllers\.service\.user\.destroy', 
 					message: 'Error: '+err
 				}).error().present().log('error');
 				
@@ -144,8 +144,8 @@ var service = {
 			} else {
 				
 				event.newEvent({
-					name: 'kernel\.controllers\.service\.user\.del', 
-					message: 'Success deleted'
+					name: 'kernel\.controllers\.service\.user\.destroy', 
+					message: 'Success destroyed'
 				}).success().present().log('info');
 				
 			}
