@@ -18,6 +18,11 @@ var GraoToolsConfig = {
 	generate : false,
 	forceRewrite : false,
 	verbose : true,
+	
+	files: {
+		app: ["bin", "bundles", "config", "log", "scripts", "vendor", "tdd", "index.js"],
+		bundle: []
+	},
 
 	usage : function() {
 		console.log("Usage: grao [OPTION...] [NAME]" + "\n" + 

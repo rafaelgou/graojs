@@ -3,9 +3,11 @@ var fs = require('fs'),
 
 var GraoTools = function(config) {
 	var self = this; // holder
-	
+		
 	this.newApp = function() {
 		console.log('Generating a new GrãoJS application: '+config.name+"\n");
+		
+		
 	};
 	
 	this.newBundle = function() {
