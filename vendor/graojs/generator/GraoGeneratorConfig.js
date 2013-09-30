@@ -8,7 +8,7 @@ for ( var i = 0; i < args.length; i++) {
 	}
 };
 
-module.exports = exports = {
+var GraoGeneratorConfig = {
 	name : name,
 	route : false,
 	control : false,
@@ -78,3 +78,5 @@ module.exports = exports = {
 		;
 	},
 };
+
+module.exports = exports = GraoGeneratorConfig;

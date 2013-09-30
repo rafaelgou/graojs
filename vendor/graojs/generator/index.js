@@ -1,11 +1,11 @@
-var config = require('./config')
-	,generator = require('./generator');
+var config = require('./GraoGeneratorConfig'),
+	GraoGenerator = require('./GraoGenerator');
 
 config.parseOptions();
 
-var gen = new generator(config);
+var gen = new GraoGenerator(config);
 
-console.log('Generating bundle: '+gen.name);
+console.log('Generating: '+gen.name);
 gen.loadSchema();
 
 if(config.route || config.all)

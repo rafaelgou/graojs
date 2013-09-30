@@ -1,8 +1,18 @@
-var config = require('./config')
-	,GraoTools = require('./tools');
+var config = require('./GraoToolsConfig'),
+	GraoTools = require('./GraoTools');
 
 config.parseOptions();
 
-var gen = new GraoTools(config);
+var tools = new GraoTools(config);
 
-console.log('GraoTools...');
+if(config.newApp) {
+	tools.newApp();
+} else if(config.newBundle) {
+	tools.newBundle();
+} else if(config.newSchema) {
+	tools.newSchema();
+} else if(config.generate) {
+	tools.generate();
+} else {
+	config.usage();
+}
