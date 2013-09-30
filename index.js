@@ -1,7 +1,7 @@
 var http = require('http'),
 	express = require('express'),
 	grao = express(),
-	kernel = new (require('./vendor/graojs/core/kernel'))({
+	kernel = new (require('./vendor/graojs/core/GraoKernel'))({
 						config: require('./config/prod'), 
 						grao: grao, 
 						express: express}),

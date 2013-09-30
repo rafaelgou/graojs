@@ -8,10 +8,10 @@ var GraoModel = function(di) {
 
 	di.event.newEvent({
 		name: 'kernel\.models', 
-		message: 'Instance of {GRAO}{LOWER}{NAME} created.'
+		message: 'Instance created'
 	}).success().present().log('info');
 
-	this.user = new (require('../../../bundles/user/model'))(di);
+	this.user = new (require('../../../bundles/user/User'))(di);
 };
 
 module.exports = exports = GraoModel;

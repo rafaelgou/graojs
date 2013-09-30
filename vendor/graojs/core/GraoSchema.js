@@ -1,10 +1,10 @@
 var GraoSchema = function(di) {
 	di.event.newEvent({
 		name: 'kernel\.schemas', 
-		message: 'Instance of {GRAO}{LOWER}{NAME} created.'
+		message: 'Instance created'
 	}).success().present().log('info');
 
-	this.user = new (require('../../../bundles/user/schema'))(di);
+	this.user = new (require('../../../bundles/user/UserSchema'))(di);
 };
 
 module.exports = exports = GraoSchema;

@@ -1,7 +1,6 @@
 // Glocal Scope :)
 var styles,
 	states,
-	generator,
 	logger,
 	handle;
 
@@ -59,9 +58,6 @@ var GraoEvent = function(di) {
 	
 	this.states = $.states = states = (di.states != null) ?  di.states : 
 										(states != null) ? states : null;
-	
-	this.generator = $.generator = generator = (di.generator != null) ?  di.generator : 
-										(generator != null) ? generator : null;
 	
 	this.logger = $.logger = logger = (di.logger != null) ?  di.logger : 
 		(logger != null) ? logger : null;
@@ -173,8 +169,7 @@ var GraoEvent = function(di) {
 	
 	$.stateTime();
 	
-	generator.name = this.name;
-	this.message = generator.replace(this.message);
+	this.message = this.name+": "+this.message;
 	
 	this.last = this;
 	handle.events.push(this.last);

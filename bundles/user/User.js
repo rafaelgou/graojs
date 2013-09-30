@@ -2,10 +2,12 @@ var businessMethods = {
 		
 	businessLogic1 : function() {
 		
+		return 1+this.businessLogic2();
 	},
 
 	businessLogic2 : function() {
-		throw "Business error!";
+		return 2;
+		//throw "Business error!";
 	},
 
 	hashPassword : function(password) {
@@ -17,10 +19,10 @@ var businessMethods = {
 	}
 };
 
-var UserModel = function(di) {
+var User = function(di) {
 
 	this.business = di.schemas.user.mongoose.methods = businessMethods;
 	return di.mongoose.model("User", di.schemas.user.mongoose);
 };
 
-module.exports = exports = UserModel;
+module.exports = exports = User;

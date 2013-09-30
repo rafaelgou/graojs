@@ -1,10 +1,10 @@
 var GraoController = function(di) {
 	di.event.newEvent({
 		name: 'kernel\.controllers', 
-		message: 'Instance of {GRAO}{LOWER}{NAME} created.'
+		message: 'Instance created'
 	}).success().present().log('info');
 
-	this.user = new (require('../../../bundles/user/controller'))(di);
+	this.user = new (require('../../../bundles/user/UserController'))(di);
 };
 
 module.exports = exports = GraoController;

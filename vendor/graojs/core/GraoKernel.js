@@ -11,36 +11,35 @@ var GraoKernel = function(di) {
 	this.grao = di.grao;
 	this.express = di.express;
 	
-	this.logger = new require('./logger')(this.config);
+	this.logger = new require('./GraoLogger')(this.config);
 	this.logger.info('{ ' + this.config.name + ' }');
 	
-	this.event = new (require('./event'))({
-		generator: new (require('../generator/generator'))({name: 'kernel'}),
+	this.event = new (require('./GraoEvent'))({
 		logger: this.logger,
 		styles: styles,
 		states: states,
 		
 		name: 'kernel', 
-		message: '{GRAO}{UCFIRST}{NAME} loading...', 
+		message: 'loading...', 
 		mandatory: true,
 		style: styles.PRIMARY,
 		state: states.INITIAL
 	}).present().log('info');
 	
-	this.validators = new (require('./validator'))({
+	this.validators = new (require('./GraoValidator'))({
 		event: this.event,
 		mongoose : mongoose,
 		validate : validate
 	});
 	
-	this.schemas = new (require('./schema'))({
+	this.schemas = new (require('./GraoSchema'))({
 		event: this.event,
 		mongoose : mongoose,
 		validate : validate,
 		validators : this.validators
 	});
 
-	this.models = new (require('./model'))({
+	this.models = new (require('./GraoModel'))({
 		event: this.event,
 		config : this.config,
 		mongoose : mongoose,
@@ -48,21 +47,21 @@ var GraoKernel = function(di) {
 		hash : hash
 	});
 
-	this.controllers = new (require('./controller'))({
+	this.controllers = new (require('./GraoController'))({
 		config : this.config,
 		models : this.models,
 		event: this.event
 	});
 
 	this.routes = function() {
-		return new (require('./route'))({
+		return new (require('./GraoRoute'))({
 			event: this.event,
 			grao : this.grao,
 			controllers : this.controllers
 		});
 	};
 
-	this.publics = require('./public');
+	this.publics = require('./GraoPublicRoute');
 
 };
 

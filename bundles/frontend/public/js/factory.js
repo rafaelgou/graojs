@@ -7,14 +7,6 @@ GraoJS.factory('user', ['$resource', 'config', function($resource, config) {
     return user;
 }]);
 
-GraoJS.factory('activity', ['$resource', 'config', function($resource, config) {
-    var activity = $resource(config.baseUrl+'/activity/:id', { id: '@_id' }, {
-        update: {
-            method: 'PUT'
-        }
-    });
-    return activity;
-}]);
 
 GraoJS.factory('share', ['config', '$timeout', '$http', function(config, $timeout, $http) {
     var share = {
