@@ -16,7 +16,8 @@
 	    "i18n" : "0.4.x",
 	    "underscore" : "1.5.x",
 	    "lazy" : "1.0.x",
-	    "jade" : "0.35.x"
+	    "jade" : "0.35.x",
+	    "fs-extra": "0.6.4"
   },
   "keywords": [
     "framework",

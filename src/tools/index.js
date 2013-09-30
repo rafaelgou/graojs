@@ -16,3 +16,5 @@ if(config.newApp) {
 } else {
 	config.usage();
 }
+
+module.exports = exports = tools;
