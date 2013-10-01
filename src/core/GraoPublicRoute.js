@@ -15,14 +15,14 @@ var GraoPublicRoute = {
 	 * Need be automatic with nodejs fs package
 	 */
 	publicRoutes : {
-		'/css/bootstrap' : '/vendor/bootstrap/public/css',
-		'/js/bootstrap' : '/vendor/bootstrap/public/js',
-		'/ui' : '/vendor/bootstrap/public/ui',
+		'/css/bootstrap' : '/node_modules/graojs/vendor/bootstrap/public/css',
+		'/js/bootstrap' : '/node_modules/graojs/vendor/bootstrap/public/js',
+		'/ui' : '/node_modules/graojs/vendor/bootstrap/public/ui',
 
-		'/css/font-awesome' : '/vendor/font-awesome/public/css',
-		'/css/font' : '/vendor/font-awesome/public/font',
+		'/css/font-awesome' : '/node_modules/graojs/vendor/font-awesome/public/css',
+		'/css/font' : '/node_modules/graojs/vendor/font-awesome/public/font',
 
-		'/js/angularjs' : '/vendor/angularjs/public/js',
+		'/js/angularjs' : '/node_modules/graojs/vendor/angularjs/public/js',
 
 		'/js' : '/bundles/frontend/public/js',
 		'/css' : '/bundles/frontend/public/css',

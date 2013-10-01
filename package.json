@@ -1,7 +1,7 @@
 {
   "name": "graojs",
   "description": "GrãoJS - A full stack MVC NodeJS framework",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "Marcelo M. Fleury <marcelomf@gmail.com>",
   "contributors": [ { } ],
   "licenses": [ { "type": "MIT", "url": "https://github.com/synackbr/graojs/raw/master/LICENSE" } ],
