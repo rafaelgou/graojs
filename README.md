@@ -33,9 +33,9 @@ GrãoJS work with:
 -	yum install nodejs mongodb npm
 
 ##### GrãoJS install and run:
--	npm install graojs
--	cp node_modules/graojs/config/config-dist.js node_modules/graojs/config/config.js
--	npm run-script graojs start
+-	sudo npm install -g graojs
+-	grao app demo
+-	node demo/index.js 
 
 We'll fix install process with npm bin and distro packages.
 
