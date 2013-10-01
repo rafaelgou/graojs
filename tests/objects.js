@@ -15,13 +15,13 @@ for (var m = 0; m < maxMethods; m++)
 	ClassProto.prototype['method'+m] = function (o) { return 1+o; };
 console.timeEnd('ClassProtoMethods');
 
-console.time('ClassProtoObjects');
+console.time('ClassProtoCalls');
 for (var o = 0; o < maxObjects; o++)
 {
 	object = new ClassProto();
 	object.method99999(o);
 }
-console.timeEnd('ClassProtoObjects');
+console.timeEnd('ClassProtoCalls');
 
 // Object Literal
 var ClassLiteral = {};
@@ -30,14 +30,14 @@ for (var m = 0; m < maxMethods; m++)
 	ClassLiteral['method'+m] = function (o) { return 1+o; };
 console.timeEnd('ClassLiteralMethods');
 
-console.time('ClassLiteralObjects'); 
+console.time('ClassLiteralCalls'); 
 for (var o = 0; o < maxObjects; o++)
 {
 	//object = Object.create(ClassLiteral);
 	//object.method99999(o);
 	ClassLiteral.method99999(o);
 }
-console.timeEnd('ClassLiteralObjects');
+console.timeEnd('ClassLiteralCalls');
 
 // Object Function
 var ObjectFunction = function (){};
@@ -47,10 +47,10 @@ for (var m = 0; m < maxMethods; m++)
 	ObjectFunction.prototype['method'+m] = function (o) { return 1+o; };
 console.timeEnd('ObjectFunctionMethods'); 
 
-console.time('ObjectFunctionObjects'); 
+console.time('ObjectFunctionCalls'); 
 for (var o = 0; o < maxObjects; o++)
 {
 	object = new ObjectFunction();
 	object.method99999(o);
 } 
-console.timeEnd('ObjectFunctionObjects');
+console.timeEnd('ObjectFunctionCalls');
