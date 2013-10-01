@@ -9,7 +9,6 @@ var http = require('http'),
 	i18n = require('i18n');
 
 var GraoJS = function() {
-	
 	kernel.logger.info('Setting global configs...');
 	
 	i18n.configure({
@@ -41,8 +40,12 @@ var GraoJS = function() {
 
 	kernel.routes();
 	
+	this.kernel = kernel;
+	this.servers = servers;
+	
 	this.start = function() {
-		kernel.logger.info('GrãoJS starting... open in your browser:');
+		kernel.logger.info('GrãoJS Starting...');
+		kernel.logger.info('Open in your browser:');
 		for(portIndex in kernel.config.ports)
 		{
 			servers.push(graoExpress.listen(kernel.config.ports[portIndex]));
@@ -51,16 +54,24 @@ var GraoJS = function() {
 	};
 	
 	this.stop = function() {
-		kernel.logger.info('GrãoJS shutdown...');
+		kernel.logger.info('GrãoJS Shutdown...');
 		for(serverIndex in servers)
 		{
 			servers[serverIndex].close();
+			delete servers[serverIndex];
 		}
+		servers = new Array();
 	};
 	
 	this.restart = function(){
 		this.stop();
 		this.start();
+	};
+	
+	this.status = function()
+	{
+		kernel.logger.info('GrãoJS Status...');
+		kernel.logger.info('Number of servers: '+servers.length);
 	};
 };
 

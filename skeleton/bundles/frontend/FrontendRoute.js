@@ -6,19 +6,6 @@ var FrontendRoute = function (di) {
 		  res.redirect("/");
 	});
 	
-	di.graoExpress.get('/english', function(req, res){
-		res.setLocale('en');
-		console.log('Locale: '+res.getLocale()+' - '+res.__('12345'));
-		res.send(req.__('dimdim'));
-	});
-	
-	di.graoExpress.get('/', function(req, res) {
-		//req.i18n.setLocale('en');
-		res.render('frontend/view/index');
-		console.log('Locale: '+res.getLocale()+' - '+res.__('12345'));
-		res.__('dimdim');
-	});
-	
 	di.graoExpress.get('/home', function(req, res) {
 		res.render('frontend/view/index');
 	});
