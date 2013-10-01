@@ -5,11 +5,12 @@ var fs = require('fs'),
 
 module.exports = exports = {
 	packageJson: packageJson,
-	ports : [ 80, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022 ],
-	db : 'mongodb://localhost/grao',
-	rootPath : rootPath,
-	view : rootPath + '/bundles',
-	locales : rootPath + '/config/locales',
+	ports : [ 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022 ],
+	db: 'mongodb://localhost/grao',
+	rootPath: rootPath,
+	bundles: rootPath + '/bundles',
+	vendor: rootPath + '/vendor',
+	locales: rootPath + '/config/locales',
 	name : packageJson.description,
 	log : {
 		transport : {

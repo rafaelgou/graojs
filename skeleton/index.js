@@ -1,4 +1,4 @@
-var GraoJS = require('./vendor/graojs'),
+var GraoJS = require('graojs'),
 	grao = new GraoJS();
 
 grao.start();

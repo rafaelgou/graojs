@@ -4,7 +4,7 @@ var GraoValidator = function(di) {
 		message: 'Instance created'
 	}).success().present().log('info');
 
-	this.user = new (require('../../../bundles/user/UserValidator'))(di);
+	this.user = new (require(di.config.bundles+'/user/UserValidator'))(di);
 };
 
 module.exports = exports = GraoValidator;

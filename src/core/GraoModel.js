@@ -11,7 +11,7 @@ var GraoModel = function(di) {
 		message: 'Instance created'
 	}).success().present().log('info');
 
-	this.user = new (require('../../../bundles/user/User'))(di);
+	this.user = new (require(di.config.bundles+'/user/User'))(di);
 };
 
 module.exports = exports = GraoModel;

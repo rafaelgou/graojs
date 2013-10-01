@@ -31,10 +31,12 @@ var GraoKernel = function(di) {
 	this.validators = new (require('./GraoValidator'))({
 		event: this.event,
 		mongoose : mongoose,
-		validate : validate
+		validate : validate,
+		config: this.config
 	});
 	
 	this.schemas = new (require('./GraoSchema'))({
+		config: this.config,
 		event: this.event,
 		mongoose : mongoose,
 		validate : validate,
@@ -42,8 +44,8 @@ var GraoKernel = function(di) {
 	});
 
 	this.models = new (require('./GraoModel'))({
-		event: this.event,
 		config : this.config,
+		event: this.event,
 		mongoose : mongoose,
 		schemas : this.schemas,
 		hash : hash
@@ -57,6 +59,7 @@ var GraoKernel = function(di) {
 
 	this.routes = function() {
 		return new (require('./GraoRoute'))({
+			config: this.config,
 			event: this.event,
 			graoExpress : this.graoExpress,
 			controllers : this.controllers

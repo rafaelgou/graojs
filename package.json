@@ -1,7 +1,7 @@
 {
   "name": "graojs",
   "description": "GrãoJS - A full stack MVC NodeJS framework",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "author": "Marcelo M. Fleury <marcelomf@gmail.com>",
   "contributors": [ { } ],
   "licenses": [ { "type": "MIT", "url": "https://github.com/synackbr/graojs/raw/master/LICENSE" } ],
@@ -18,7 +18,7 @@
 	    "lazy" : "1.0.x",
 	    "jade" : "0.35.x",
 	    "fs-extra": "0.6.4",
-	    "node-stack-trace": "0.0.x"
+	    "stack-trace": "0.0.x"
   },
   "keywords": [
     "framework",

@@ -4,8 +4,8 @@ var GraoRoute = function(di) {
 		message: 'Setting routes of controllers...'
 	}).success().present().log('info');
 
-	this.frontend = new require('../../../bundles/frontend/FrontendRoute')(di);
-	this.user = new require('../../../bundles/user/UserRoute')(di);
+	this.frontend = new require(di.config.bundles+'/frontend/FrontendRoute')(di);
+	this.user = new require(di.config.bundles+'/user/UserRoute')(di);
 
 };
 

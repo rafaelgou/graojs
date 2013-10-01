@@ -1,6 +1,6 @@
 {
-  "name": "appName",
-  "description": "Your Grão",
+  "name": "graoApp",
+  "description": "Your Grão Application",
   "version": "0.0.1",
   "author": "Your Name <youremail@yourdomain.com>",
   "readme" : "README.md",

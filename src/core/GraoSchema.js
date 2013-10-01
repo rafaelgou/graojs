@@ -4,7 +4,7 @@ var GraoSchema = function(di) {
 		message: 'Instance created'
 	}).success().present().log('info');
 
-	this.user = new (require('../../../bundles/user/UserSchema'))(di);
+	this.user = new (require(di.config.bundles+'/user/UserSchema'))(di);
 };
 
 module.exports = exports = GraoSchema;

@@ -19,7 +19,7 @@ var GraoJS = function() {
 	});
 
 	graoExpress.configure(function(){
-		graoExpress.set('views', kernel.config.view);
+		graoExpress.set('views', kernel.config.bundles);
 		graoExpress.set('view engine', 'jade');
 		graoExpress.enable('jsonp callback');
 
