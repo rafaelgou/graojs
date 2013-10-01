@@ -1,11 +1,13 @@
 var fs = require('fs'), 
 	path = require('path'), 
 	rootPath = path.normalize(__dirname) + '/..',
-	packageJson = JSON.parse(fs.readFileSync(rootPath+'/package.json', 'utf-8'));
+	charset = 'utf-8',
+	packageJson = JSON.parse(fs.readFileSync(rootPath+'/package.json', charset));
 
 module.exports = exports = {
 	packageJson: packageJson,
 	ports : [ 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022 ],
+	charset: charset,
 	db: 'mongodb://localhost/grao',
 	rootPath: rootPath,
 	bundles: rootPath + '/bundles',

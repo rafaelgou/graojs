@@ -5,47 +5,6 @@ var styles,
 	stackTrace,
 	handle;
 
-var listener = {
-	push: function()
-	{
-		var eventsPushing = new Array();
-		//console.log('Events: ');
-		//console.log(handle.events);
-		for(var id in handle.events)
-		{
-			if((handle.events[id].state != states.INITIAL && handle.events[id].state != states.FINALIZE) || 
-					!handle.events[id].presented)
-				continue;
-					
-			eventsPushing.push({
-				id: handle.events[id].id,
-				name: handle.events[id].name,
-				message: handle.events[id].message,
-				style: handle.events[id].style,
-				state: handle.events[id].state,
-				initialTime: handle.events[id].initialTime,
-				status: handle.events[id].status,
-				presented: handle.events[id].presented,
-			});
-			
-			handle.events[id].presented = false;
-			
-			/**
-			 * @FIXME memory leak with circular objs 
-			 */
-			if(handle.events[id].state != states.INITIAL)
-			{
-				delete handle.events[id];
-				//handle.events[id] = null;
-			}
-		}
-		/**
-		 * @FIXME JSON.stringify ...
-		 */
-		return eventsPushing;
-	}
-};
-
 /**
  * @FIXME memory leak with circular objs 
  * delete only delete reference, not a object.
@@ -70,10 +29,10 @@ var GraoEvent = function(di) {
 	
 	/*err = new Error;
 	console.log(err.stack);*/
-	var trace = stackTrace.get();
+	/*var trace = stackTrace.get();
 	console.log(trace[0].getFileName()+trace[0].getFunctionName()+trace[0].getMethodName());
 	console.log(trace[1].getFileName()+trace[1].getFunctionName()+trace[1].getMethodName());
-	console.log(trace[2].getFileName()+trace[2].getFunctionName()+trace[2].getMethodName());
+	console.log(trace[2].getFileName()+trace[2].getFunctionName()+trace[2].getMethodName());*/
 	
 	/**
 	 * initialEventRelated
@@ -186,6 +145,47 @@ var GraoEvent = function(di) {
 	handle.events.push(this.last);
 	return this;
 };
+
+var listener = {
+		push: function()
+		{
+			var eventsPushing = new Array();
+			//console.log('Events: ');
+			//console.log(handle.events);
+			for(var id in handle.events)
+			{
+				if((handle.events[id].state != states.INITIAL && handle.events[id].state != states.FINALIZE) || 
+						!handle.events[id].presented)
+					continue;
+						
+				eventsPushing.push({
+					id: handle.events[id].id,
+					name: handle.events[id].name,
+					message: handle.events[id].message,
+					style: handle.events[id].style,
+					state: handle.events[id].state,
+					initialTime: handle.events[id].initialTime,
+					status: handle.events[id].status,
+					presented: handle.events[id].presented,
+				});
+				
+				handle.events[id].presented = false;
+				
+				/**
+				 * @FIXME memory leak with circular objs 
+				 */
+				if(handle.events[id].state != states.INITIAL)
+				{
+					delete handle.events[id];
+					//handle.events[id] = null;
+				}
+			}
+			/**
+			 * @FIXME JSON.stringify ...
+			 */
+			return eventsPushing;
+		}
+	};
 
 module.exports = exports = GraoEvent;
 module.exports.listener = exports.listener = listener;

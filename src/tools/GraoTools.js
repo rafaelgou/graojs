@@ -17,9 +17,12 @@ var GraoTools = function(config) {
 					fs.mkdirSync(dirApp+"/node_modules", 0755);
 					//fs.unlinkSync(dirApp+"/vendor/graojs");
 					//fs.unlinkSync(dirApp+"/node_modules");
-					fs.copy(__dirname+"/../../src", dirApp+"/node_modules/graojs");
-					fs.copy(__dirname+"/../../node_modules", dirApp+"/node_modules/graojs/node_modules");
-					fs.copy(__dirname+"/../../index.js", dirApp+"/node_modules/graojs/index.js");
+					fs.copy(__dirname+"/../../src", dirApp+"/node_modules/graojs", function(){
+						fs.copy(__dirname+"/../../node_modules", dirApp+"/node_modules/graojs/node_modules", function(){
+							fs.copy(__dirname+"/../../index.js", dirApp+"/node_modules/graojs/index.js");		
+						});	
+					});
+					
 				}
 			}); //fs.mkdirSync(dirApp, 0644);
 		}
