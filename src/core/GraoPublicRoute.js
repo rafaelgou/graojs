@@ -6,7 +6,7 @@ var GraoPublicRoute = {
 		}).success().present().log('info');
 
 		for (var publicRoute in this.publicRoutes) {
-			di.grao.use(publicRoute, di.express.static(di.config.rootPath
+			di.graoExpress.use(publicRoute, di.express.static(di.config.rootPath
 					+ this.publicRoutes[publicRoute]));
 		}
 	},

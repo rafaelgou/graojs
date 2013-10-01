@@ -9,7 +9,7 @@ var crypto = require("crypto"),
 var GraoKernel = function(di) {
 	
 	this.config = di.config;
-	this.grao = di.grao;
+	this.graoExpress = di.graoExpress;
 	this.express = di.express;
 	
 	this.logger = new require('./GraoLogger')(this.config);
@@ -58,7 +58,7 @@ var GraoKernel = function(di) {
 	this.routes = function() {
 		return new (require('./GraoRoute'))({
 			event: this.event,
-			grao : this.grao,
+			graoExpress : this.graoExpress,
 			controllers : this.controllers
 		});
 	};
