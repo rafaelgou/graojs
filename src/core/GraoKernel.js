@@ -3,7 +3,8 @@ var crypto = require("crypto"),
 	mongoose = require('mongoose'), 
 	validate = require('mongoose-validator').validate,
 	styles = require('./styles'),
-	states = require('./states');
+	states = require('./states'),
+	stackTrace = require('stack-trace');
 
 var GraoKernel = function(di) {
 	
@@ -18,6 +19,7 @@ var GraoKernel = function(di) {
 		logger: this.logger,
 		styles: styles,
 		states: states,
+		stackTrace: stackTrace,
 		
 		name: 'kernel', 
 		message: 'loading...', 

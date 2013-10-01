@@ -2,6 +2,7 @@
 var styles,
 	states,
 	logger,
+	stackTrace,
 	handle;
 
 var listener = {
@@ -53,6 +54,11 @@ var listener = {
 var GraoEvent = function(di) {
 	$ = this; // holder
 	
+	
+	
+	this.stackTrace = $.stackTrace = stackTrace = (di.stackTrace != null) ?  di.stackTrace : 
+		(stackTrace != null) ? stackTrace : null;
+	
 	this.styles = $.styles = styles = (di.styles != null) ?  di.styles : 
 										(styles != null) ? styles : null;
 	
@@ -61,6 +67,13 @@ var GraoEvent = function(di) {
 	
 	this.logger = $.logger = logger = (di.logger != null) ?  di.logger : 
 		(logger != null) ? logger : null;
+	
+	/*err = new Error;
+	console.log(err.stack);*/
+	var trace = stackTrace.get();
+	console.log(trace[0].getFileName()+trace[0].getFunctionName()+trace[0].getMethodName());
+	console.log(trace[1].getFileName()+trace[1].getFunctionName()+trace[1].getMethodName());
+	console.log(trace[2].getFileName()+trace[2].getFunctionName()+trace[2].getMethodName());
 	
 	/**
 	 * initialEventRelated
