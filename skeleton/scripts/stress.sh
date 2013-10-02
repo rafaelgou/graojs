@@ -3,7 +3,7 @@ create()
 {
 	for i in $(seq 1 1000 | xargs echo); 
 	do 
-		curl -X POST -H "Content-Type: application/json" -d '{"username":"usuario'$i'","email":"usuario'$i'@usuario.com.br","password":"usuario'$i'"}' http://localhost/user 
+		curl -X POST -H "Content-Type: application/json" -d '{"username":"usuario'$i'","email":"usuario'$i'@usuario.com.br","password":"usuario'$i'"}' http://localhost:8015/user 
 	done;
 	
 }
