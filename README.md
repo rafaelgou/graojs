@@ -37,8 +37,6 @@ GrãoJS work with:
 -	grao app demo
 -	node demo/index.js 
 
-We'll fix install process with npm bin and distro packages.
-
 License
 -------
 Copyright (c) 2013 Marcelo M. Fleury
