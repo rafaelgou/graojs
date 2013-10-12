@@ -8,7 +8,7 @@ var http = require('http'),
 	servers = new Array(),
 	i18n = require('i18n');
 
-var GraoJS = function() {
+var graoJS = function() {
 	kernel.logger.info('Setting global configs...');
 	
 	i18n.configure({
@@ -75,5 +75,5 @@ var GraoJS = function() {
 	};
 };
 
-module.exports = exports = GraoJS;
+module.exports = exports = graoJS;
 

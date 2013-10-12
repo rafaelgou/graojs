@@ -13,19 +13,24 @@ var styles,
 var GraoEvent = function(di) {
 	$ = this; // holder
 	
+	/*if(di !== null && di !== undefined && di.constructor == {}.constructor)
+		{}*/
 	
+	this.stackTrace = $.stackTrace = stackTrace = (di.stackTrace != null) ? 
+													di.stackTrace : (stackTrace != null) ? 
+																			stackTrace : null;
 	
-	this.stackTrace = $.stackTrace = stackTrace = (di.stackTrace != null) ?  di.stackTrace : 
-		(stackTrace != null) ? stackTrace : null;
+	this.styles = $.styles = styles = (di.styles != null) ?  
+											di.styles : (styles != null) ? 
+																styles : null;
 	
-	this.styles = $.styles = styles = (di.styles != null) ?  di.styles : 
-										(styles != null) ? styles : null;
+	this.states = $.states = states = (di.states != null) ? 
+											di.states : (states != null) ? 
+																states : null;
 	
-	this.states = $.states = states = (di.states != null) ?  di.states : 
-										(states != null) ? states : null;
-	
-	this.logger = $.logger = logger = (di.logger != null) ?  di.logger : 
-		(logger != null) ? logger : null;
+	this.logger = $.logger = logger = (di.logger != null) ?  
+											di.logger : (logger != null) ? 
+																logger : null;
 	
 	/*err = new Error;
 	console.log(err.stack);*/
@@ -68,6 +73,8 @@ var GraoEvent = function(di) {
 	// last is a past handle list
 	this.last = di.last;
 	
+	this.listener = listener;
+	
 	// the current event count
 	this.count = function() {
 		return $.last.length+1;
@@ -77,8 +84,6 @@ var GraoEvent = function(di) {
 		var percentage = ($.count()/$.total*100);
 		return percentage >= 100 ? 100 : percentage;
 	};
-	
-	this.listener = listener;
 	
 	this.stateTime = function() {
 		switch(this.state)

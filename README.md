@@ -39,7 +39,7 @@ GrãoJS work with:
 
 License
 -------
-Copyright (c) 2013 Marcelo M. Fleury
+Copyright(c) 2013 GrãoJS Marcelo Machado Fleury <marcelo@synack.com.br>
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

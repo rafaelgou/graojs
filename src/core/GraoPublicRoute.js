@@ -1,9 +1,6 @@
 var GraoPublicRoute = {
 	enable : function(di) {
-		di.event.newEvent({
-			name: 'kernel\.publics\.enable', 
-			message: 'Setting routes of static public content....'
-		}).success().present().log('info');
+		di.event.newEvent('Setting routes of static public content....').success().present().log('info');
 
 		for (var publicRoute in this.publicRoutes) {
 			di.graoExpress.use(publicRoute, di.express.static(di.config.rootPath
