@@ -1,17 +1,20 @@
 var args = process.argv.slice(2);
-var name;
+var name, fileName;
 
 for ( var i = 0; i < args.length; i++) {
 	switch (args[i]) {
 	case '--name':
-		name = args[i + 1];
+		fileName = args[i + 1];
+		name = fileName.replace(/Schema/gi, '');
 	}
 };
 
 var GraoGeneratorConfig = {
+	fileName : fileName,
 	name : name,
 	route : false,
-	control : false,
+	controller : false,
+	validator : false,
 	model : false,
 	publicJs : false,
 	view : false,
@@ -20,12 +23,12 @@ var GraoGeneratorConfig = {
 	verbose : true,
 
 	files : {
-		schema : './schemas/' + name + '.js',
-		route : './preprocessors/route.js',
-		control : './preprocessors/control.js',
-		model : './preprocessors/model.js',
-		valid : './preprocessors/valid.js',
-		publicJsControl : './preprocessors/public_js/control.js',
+		schema : './schemas/' + fileName + '.js',
+		route : './preprocessors/Route.js',
+		controller : './preprocessors/Controller.js',
+		model : './preprocessors/Model.js',
+		validator : './preprocessors/Validator.js',
+		publicJsController : './preprocessors/public/js/PublicController.js',
 		viewDashboard : './preprocessors/view/dashboard.jade',
 		viewForm : './preprocessors/view/form.jade',
 		viewGrid : './preprocessors/view/grid.jade',
@@ -50,8 +53,11 @@ var GraoGeneratorConfig = {
 			case '--route':
 				this.route = true;
 				break;
-			case '--control':
-				this.control = true;
+			case '--validator':
+				this.validator = true;
+				break;
+			case '--controller':
+				this.controller = true;
 				break;
 			case '--model':
 				this.model = true;

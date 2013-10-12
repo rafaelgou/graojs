@@ -1,7 +1,7 @@
 extends ../../core/view/layout
 block content
-	.row(ng-controller='{GRAO}{LOWER}{BUNDLE_NAME}Control')
-		h2 Dashboard {GRAO}{UCFIRST}{PLURAL}{BUNDLE_NAME}
+	.row(ng-controller='{GRAO}{UCFIRST}{NAME}PublicController')
+		h2 Dashboard {GRAO}{UCFIRST}{PLURAL}{NAME}
 		.col-md-4
 			include form
 		.col-md-8

@@ -105,8 +105,8 @@ var GraoGenerator = function(config) {
 		$.readTemplate(this.config.files.route);
 	};
 
-	this.control = function() {
-		$.readTemplate(this.config.files.control);
+	this.controller = function() {
+		$.readTemplate(this.config.files.controller);
 	};
 
 	this.model = function() {
@@ -114,7 +114,7 @@ var GraoGenerator = function(config) {
 	};
 
 	this.publicJs = function() {
-		$.readTemplate(this.config.files.publicJsControl);
+		$.readTemplate(this.config.files.publicJsController);
 	};
 
 	this.view = function() {
@@ -123,11 +123,11 @@ var GraoGenerator = function(config) {
 		// $.readTemplate(this.config.files.viewGrid);
 	};
 
-	this.schema = function() {
-
+	this.validator = function() {
+		$.readTemplate(this.config.files.validator);
 	};
-
-	this.valid = function() {
+	
+	this.schema = function() {
 
 	};
 };

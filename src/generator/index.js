@@ -8,11 +8,14 @@ var gen = new GraoGenerator(config);
 console.log('Generating: '+gen.name);
 gen.loadSchema();
 
+if(config.validator || config.all)
+	gen.validator();
+
 if(config.route || config.all)
 	gen.route();
 
-if(config.control || config.all)
-	gen.control();
+if(config.controller || config.all)
+	gen.controller();
 
 if(config.model || config.all)
 	gen.model();
