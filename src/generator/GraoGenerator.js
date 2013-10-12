@@ -1,5 +1,4 @@
-var fs = require('fs'), 
-	lazy = require('lazy');
+var fs = require('fs');
 
 var GraoGenerator = function(config) {
 	var $ = this; // holder
@@ -7,6 +6,7 @@ var GraoGenerator = function(config) {
 	this.config = config;
 	this.name = this.config.name;
 	this.firstString = '';
+	this.currentDir = process.cwd();
 
 	this.loadSchema = function() {
 		this.schema = require(this.config.files.schema);
@@ -21,8 +21,7 @@ var GraoGenerator = function(config) {
 			localName = localName.toLowerCase();
 
 		if (buffer.match(/{GRAO}{UCFIRST}/i))
-			localName = localName.toUpperCase().substr(0, 1)
-					+ localName.substr(1).toLowerCase();
+			localName = ucfirst(localName);
 
 		if (buffer.match(/{GRAO}{LOWER}{NAME}/i))
 			buffer = buffer.replace(/{GRAO}{LOWER}{NAME}/gi,
@@ -88,47 +87,53 @@ var GraoGenerator = function(config) {
 			return buffer;
 	};
 
-	this.readTemplate = function(templateFile) {
+	this.readTemplate = function(templateFile, output) {
 		console.log('Getting preprocessor: ' + templateFile);
-		new lazy(fs.createReadStream(templateFile, {
-			flags : 'r',
-			encoding : 'utf8'
-		})).lines.forEach(function(line) {
-			if (line != null && line != 0 && line != '0' && line != false) {
-				console.log('Compiling for interpret javascript :): '
-						+ $.replace(line.toString()));
-			}
+
+		fs.readFileSync(__dirname+'/preprocessors/'+templateFile).toString().
+			split('\n').forEach(function (line) { 
+				if (line != null && line != 0 && line != '0' && line != false) {
+					//$.writeCode(line, output);
+					console.log($.replace(line.toString()));
+					fs.appendFileSync($.currentDir+'/bundles/'+$.name+'/'+output, 
+						$.replace(line.toString())+"\n");
+				}
 		});
 	};
 
 	this.route = function() {
-		$.readTemplate(this.config.files.route);
+		$.readTemplate(this.config.files.route, ucfirst(this.name)+'Route.js');
 	};
 
 	this.controller = function() {
-		$.readTemplate(this.config.files.controller);
+		$.readTemplate(this.config.files.controller, ucfirst(this.name)+'Controller.js');
 	};
 
 	this.model = function() {
-		$.readTemplate(this.config.files.model);
+		$.readTemplate(this.config.files.model, ucfirst(this.name)+'.js');
 	};
 
-	this.publicJs = function() {
-		$.readTemplate(this.config.files.publicJsController);
+	this.publicController = function() {
+		$.readTemplate(this.config.files.publicController, 'public/js/'+ucfirst(this.name)+'PublicController.js');
 	};
 
 	this.view = function() {
 		// $.readTemplate(this.config.files.viewDashboard);
-		$.readTemplate(this.config.files.viewForm);
+		$.readTemplate(this.config.files.viewForm, 'view/form.jade');
 		// $.readTemplate(this.config.files.viewGrid);
 	};
 
 	this.validator = function() {
-		$.readTemplate(this.config.files.validator);
+		$.readTemplate(this.config.files.validator, ucfirst(this.name)+'Validator.js');
 	};
 	
 	this.schema = function() {
-
+		$.readTemplate(this.config.files.schema, ucfirst(this.name)+'Schema.js');
 	};
 };
+
+function ucfirst(string)
+{
+	return string.toUpperCase().substr(0, 1)+string.substr(1).toLowerCase();	
+}
 module.exports = exports = GraoGenerator;

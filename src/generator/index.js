@@ -8,6 +8,9 @@ var gen = new GraoGenerator(config);
 console.log('Generating: '+gen.name);
 gen.loadSchema();
 
+if(config.schema || config.all)
+	gen.schema();
+
 if(config.validator || config.all)
 	gen.validator();
 
@@ -20,8 +23,8 @@ if(config.controller || config.all)
 if(config.model || config.all)
 	gen.model();
 
-if(config.publicJs || config.all)
-	gen.publicJs();
+if(config.publicController || config.all)
+	gen.publicController();
 
 if(config.view || config.all)
 	gen.view();

@@ -12,36 +12,37 @@ for ( var i = 0; i < args.length; i++) {
 var GraoGeneratorConfig = {
 	fileName : fileName,
 	name : name,
+	schema : false,
 	route : false,
 	controller : false,
 	validator : false,
 	model : false,
-	publicJs : false,
+	publicController : false,
 	view : false,
 	all : false,
 	forceRewrite : false,
 	verbose : true,
 
 	files : {
-		schema : './schemas/' + fileName + '.js',
-		route : './preprocessors/Route.js',
-		controller : './preprocessors/Controller.js',
-		model : './preprocessors/Model.js',
-		validator : './preprocessors/Validator.js',
-		publicJsController : './preprocessors/public/js/PublicController.js',
-		viewDashboard : './preprocessors/view/dashboard.jade',
-		viewForm : './preprocessors/view/form.jade',
-		viewGrid : './preprocessors/view/grid.jade',
-		viewCurrency : './preprocessors/view/currency.jade',
-		viewDate : './preprocessors/view/date.jade',
-		viewInputCheckbox : './preprocessors/view/input_checkbox.jade',
-		viewInputEmail : './preprocessors/view/input_email.jade',
-		viewInputNumber : './preprocessors/view/input_number.jade',
-		viewInputRadio : './preprocessors/view/input_radio.jade',
-		viewInputText : './preprocessors/view/input_text.jade',
-		viewInputUrl : './preprocessors/view/input_url.jade',
-		viewSelect : './preprocessors/view/input_select.jade',
-		viewTextarea : './preprocessors/view/input_textarea.jade'
+		schema : 'Schema.js',
+		route : 'Route.js',
+		controller : 'Controller.js',
+		model : 'Model.js',
+		validator : 'Validator.js',
+		publicController : 'public/js/PublicController.js',
+		viewDashboard : 'view/dashboard.jade',
+		viewForm : 'view/form.jade',
+		viewGrid : 'view/grid.jade',
+		viewCurrency : 'view/currency.jade',
+		viewDate : 'view/date.jade',
+		viewInputCheckbox : 'view/input_checkbox.jade',
+		viewInputEmail : 'view/input_email.jade',
+		viewInputNumber : 'view/input_number.jade',
+		viewInputRadio : 'view/input_radio.jade',
+		viewInputText : 'view/input_text.jade',
+		viewInputUrl : 'view/input_url.jade',
+		viewSelect : 'view/input_select.jade',
+		viewTextarea : 'view/input_textarea.jade'
 	},
 
 	parseOptions : function() {
@@ -56,14 +57,17 @@ var GraoGeneratorConfig = {
 			case '--validator':
 				this.validator = true;
 				break;
+			case '--schema':
+				this.schema = true;
+				break;
 			case '--controller':
 				this.controller = true;
 				break;
 			case '--model':
 				this.model = true;
 				break;
-			case '--public-js':
-				this.publicJs = true;
+			case '--public-controller':
+				this.publicController = true;
 				break;
 			case '--view':
 				this.view = true;

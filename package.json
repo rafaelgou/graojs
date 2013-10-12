@@ -1,7 +1,7 @@
 {
   "name": "graojs",
   "description": "GrãoJS - A full stack MVC NodeJS framework",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "author": "Marcelo M. Fleury <marcelo@synack.com.br>",
   "contributors": [ 
 	{ 
@@ -24,7 +24,6 @@
 	    "mongoose-rbac",
 	    "i18n",
 	    "underscore",
-	    "lazy",
 	    "jade",
 	    "fs-extra",
 	    "stack-trace"

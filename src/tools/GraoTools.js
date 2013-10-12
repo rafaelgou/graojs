@@ -1,12 +1,13 @@
-var fs = require('fs-extra'), 
-	lazy = require('lazy');
+var fs = require('fs-extra'),
+	GraoGenerator = require('../generator/GraoGenerator'),
+	GraoGeneratorConfig = require('../generator/GraoGeneratorConfig');
 
 var GraoTools = function(config) {
 	var self = this; // holder
 	this.currentDir = process.cwd();
 		
 	this.newApp = function() {
-		console.log('Generating a new GrãoJS application: '+config.name+"\n");
+		console.log('Generating a new graoJS application: '+config.name+"\n");
 		var dirApp = this.currentDir+'/'+config.name;
 		
 		if(!fs.existsSync(dirApp))
@@ -30,6 +31,29 @@ var GraoTools = function(config) {
 	
 	this.newBundle = function() {
 		console.log('Generating a new bundle: '+config.name+"\n");
+		
+		if(!fs.existsSync(this.currentDir+'/bundles'))
+			throw 'Error! bundles directory not found into current directory';
+		
+		var dirBundle = this.currentDir+'/bundles/'+config.name;
+		
+		if(!fs.existsSync(dirBundle))
+		{
+			genConfig = GraoGeneratorConfig;
+			genConfig.name = config.name;
+			gen = new GraoGenerator(genConfig);
+			fs.mkdirSync(dirBundle, 0755);
+			fs.mkdirSync(dirBundle+'/public', 0755);
+			fs.mkdirSync(dirBundle+'/public/js', 0755);
+			fs.mkdirSync(dirBundle+'/view', 0755);
+			gen.schema();
+			gen.validator();
+			gen.route();
+			gen.controller();
+			gen.model();
+			gen.view();
+			gen.publicController();
+		}
 	};
 	
 	this.newSchema = function() {
