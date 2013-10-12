@@ -4,4 +4,4 @@ var {GRAO}{UCFIRST}{NAME}Validator = function(di) {
 	};
 };
 
-module.exports = exports = UserValidator;
+module.exports = exports = {GRAO}{UCFIRST}{NAME}Validator;
