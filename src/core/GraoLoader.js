@@ -1,13 +1,12 @@
 var fs = require('fs');
 
 var GraoLoader = function(di) {
-	this.dirApp = __dirname+'/../../../../';
-	this.dirApp = '/home/marcelo/Projetos/graoteste/';
-
+	this.dirBundles = di.config.bundles;
+	
 	this.loading = function(loadType) {
 		
-		bundles = fs.readdirSync(this.dirApp+'/bundles');
-		load = new Array();
+		var bundles = fs.readdirSync(this.dirBundles);
+		var load = new Array();
 		
 		switch(loadType)
 		{
@@ -20,23 +19,23 @@ var GraoLoader = function(di) {
 				for(bundleIndex in bundles)
 				{
 					bundle = bundles[bundleIndex];
-					if(fs.existsSync(this.dirApp+'bundles/'+bundle+'/'+ucfirst(bundle)+ucfirst(loadType)+'.js'))
-						load[bundle] = this.dirApp+'bundles/'+bundle+'/'+ucfirst(bundle)+ucfirst(loadType);
+					if(fs.existsSync(this.dirBundles+'/'+bundle+'/'+ucfirst(bundle)+((loadType == 'model') ? '' : ucfirst(loadType))+'.js'))
+						load[bundle] = this.dirBundles+'/'+bundle+'/'+ucfirst(bundle)+((loadType == 'model') ? '' : ucfirst(loadType));
 				}
 				break;
 			case 'publicRoute':
 				for(bundleIndex in bundles)
 				{
 					bundle = bundles[bundleIndex];
-					if(fs.existsSync(this.dirApp+'bundles/'+bundle+'/public/js'))
+					if(fs.existsSync(this.dirBundles+'/'+bundle+'/public/js'))
 						load['/js'+((bundle == 'frontend') ? '' : '/'+bundle)] = '/bundles/'+bundle+'/public/js';
-					if(fs.existsSync(this.dirApp+'bundles/'+bundle+'/public/css'))
+					if(fs.existsSync(this.dirBundles+'/'+bundle+'/public/css'))
 						load['/css'+((bundle == 'frontend') ? '' : '/'+bundle)] = '/bundles/'+bundle+'/public/css';
-					if(fs.existsSync(this.dirApp+'bundles/'+bundle+'/public/img'))
+					if(fs.existsSync(this.dirBundles+'/'+bundle+'/public/img'))
 						load['/img'+((bundle == 'frontend') ? '' : '/'+bundle)] = '/bundles/'+bundle+'/public/img';
-					if(fs.existsSync(this.dirApp+'bundles/'+bundle+'/public/font'))
+					if(fs.existsSync(this.dirBundles+'/'+bundle+'/public/font'))
 						load['/font'+((bundle == 'frontend') ? '' : '/'+bundle)] = '/bundles/'+bundle+'/public/font';
-					if(fs.existsSync(this.dirApp+'bundles/'+bundle+'/public/file'))
+					if(fs.existsSync(this.dirBundles+'/'+bundle+'/public/file'))
 						load['/file'+((bundle == 'frontend') ? '' : '/'+bundle)] = '/bundles/'+bundle+'/public/file';
 				}
 				break;

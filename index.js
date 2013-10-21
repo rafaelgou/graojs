@@ -32,7 +32,8 @@ var graoJS = function() {
 			express: express, 
 			graoExpress: graoExpress, 
 			event: kernel.event, 
-			config: kernel.config
+			config: kernel.config,
+			loader: kernel.loader
 		});
 		
 		graoExpress.use(graoExpress.router);

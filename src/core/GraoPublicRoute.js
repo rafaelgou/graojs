@@ -1,8 +1,13 @@
 var GraoPublicRoute = {
 	enable : function(di) {
 		di.event.newEvent('Setting routes of static public content....').success().present().log('info');
-		loader = new require('./GraoLoader')();
-		this.publicRoutes.push(loader.loading('publicRoute'));
+		
+		var dynamicPublicRoutes = di.loader.loading('publicRoute');
+		
+		for(indexPublicRoute in dynamicPublicRoutes)
+		{
+			this.publicRoutes[indexPublicRoute] = dynamicPublicRoutes[indexPublicRoute];
+		}
 		
 		for (var publicRoute in this.publicRoutes) {
 			di.graoExpress.use(publicRoute, di.express.static(di.config.rootPath

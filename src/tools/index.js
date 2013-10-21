@@ -1,8 +1,7 @@
 var config = require('./GraoToolsConfig'),
 	GraoTools = require('./GraoTools');
 
-try {
-	
+try {	
 	config.parseOptions();
 	var tools = new GraoTools(config);
 

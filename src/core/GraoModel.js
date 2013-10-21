@@ -5,7 +5,11 @@ var GraoModel = function(di) {
 
 	di.event.newEvent('Instance created').success().present().log('info');
 
-	this.user = new (require(di.config.bundles+'/user/User'))(di);
+	loads = di.loader.loading('model');
+	for(loadIndex in loads)
+	{
+		this[loadIndex] = new (require(loads[loadIndex]))(di);
+	}
 };
 
 module.exports = exports = GraoModel;

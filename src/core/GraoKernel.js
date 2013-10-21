@@ -12,9 +12,13 @@ var GraoKernel = function(di) {
 	this.graoExpress = di.graoExpress;
 	this.express = di.express;
 	
+	
 	this.logger = new require('./GraoLogger')(this.config);
 	this.logger.info('{ ' + this.config.name + ' }');
-	this.loader = new require('./GraoLoader')();
+	
+	this.loader = new (require('./GraoLoader'))({
+		config: this.config
+	});
 	
 	this.event = new (require('./GraoEvent'))({
 		logger: this.logger,
