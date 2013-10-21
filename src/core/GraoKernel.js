@@ -14,6 +14,7 @@ var GraoKernel = function(di) {
 	
 	this.logger = new require('./GraoLogger')(this.config);
 	this.logger.info('{ ' + this.config.name + ' }');
+	this.loader = new require('./GraoLoader')();
 	
 	this.event = new (require('./GraoEvent'))({
 		logger: this.logger,
@@ -30,6 +31,7 @@ var GraoKernel = function(di) {
 	
 	this.validators = new (require('./GraoValidator'))({
 		event: this.event,
+		loader: this.loader,
 		mongoose : mongoose,
 		validate : validate,
 		config: this.config
@@ -38,6 +40,7 @@ var GraoKernel = function(di) {
 	this.schemas = new (require('./GraoSchema'))({
 		config: this.config,
 		event: this.event,
+		loader: this.loader,
 		mongoose : mongoose,
 		validate : validate,
 		validators : this.validators
@@ -46,6 +49,7 @@ var GraoKernel = function(di) {
 	this.models = new (require('./GraoModel'))({
 		config : this.config,
 		event: this.event,
+		loader: this.loader,
 		mongoose : mongoose,
 		schemas : this.schemas,
 		hash : hash
@@ -54,13 +58,15 @@ var GraoKernel = function(di) {
 	this.controllers = new (require('./GraoController'))({
 		config : this.config,
 		models : this.models,
-		event: this.event
+		event: this.event,
+		loader: this.loader
 	});
 
 	this.routes = function() {
 		return new (require('./GraoRoute'))({
 			config: this.config,
 			event: this.event,
+			loader: this.loader,
 			graoExpress : this.graoExpress,
 			controllers : this.controllers
 		});

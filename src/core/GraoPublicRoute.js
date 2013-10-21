@@ -1,7 +1,9 @@
 var GraoPublicRoute = {
 	enable : function(di) {
 		di.event.newEvent('Setting routes of static public content....').success().present().log('info');
-
+		loader = new require('./GraoLoader')();
+		this.publicRoutes.push(loader.loading('publicRoute'));
+		
 		for (var publicRoute in this.publicRoutes) {
 			di.graoExpress.use(publicRoute, di.express.static(di.config.rootPath
 					+ this.publicRoutes[publicRoute]));
@@ -19,14 +21,7 @@ var GraoPublicRoute = {
 		'/css/font-awesome' : '/node_modules/graojs/vendor/font-awesome/public/css',
 		'/css/font' : '/node_modules/graojs/vendor/font-awesome/public/font',
 
-		'/js/angularjs' : '/node_modules/graojs/vendor/angularjs/public/js',
-
-		'/js' : '/bundles/frontend/public/js',
-		'/css' : '/bundles/frontend/public/css',
-		'/image' : '/bundles/frontend/public/image',
-		'/font' : '/bundles/frontend/public/font',
-
-		'/js/user' : '/bundles/user/public/js',
+		'/js/angularjs' : '/node_modules/graojs/vendor/angularjs/public/js'
 	}
 };
 
