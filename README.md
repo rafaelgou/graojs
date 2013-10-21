@@ -40,7 +40,7 @@ graoJS work with:
 You need last version of NodeJS, so if you are having problems, go to:
 https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
 
-##### GrãoJS install and run:
+##### graoJS install and run:
 -	sudo npm install -g graojs
 -	grao app demo
 -	node demo/index.js 

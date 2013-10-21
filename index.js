@@ -44,7 +44,7 @@ var graoJS = function() {
 	this.servers = servers;
 	
 	this.start = function() {
-		kernel.logger.info('GrãoJS Starting...');
+		kernel.logger.info('graoJS Starting...');
 		kernel.logger.info('Open in your browser:');
 		for(portIndex in kernel.config.ports)
 		{
@@ -54,7 +54,7 @@ var graoJS = function() {
 	};
 	
 	this.stop = function() {
-		kernel.logger.info('GrãoJS Shutdown...');
+		kernel.logger.info('graoJS Shutdown...');
 		for(serverIndex in servers)
 		{
 			servers[serverIndex].close();
@@ -70,7 +70,7 @@ var graoJS = function() {
 	
 	this.status = function()
 	{
-		kernel.logger.info('GrãoJS Status...');
+		kernel.logger.info('graoJS Status...');
 		kernel.logger.info('Number of servers: '+servers.length);
 	};
 };

@@ -26,8 +26,8 @@ var GraoToolsConfig = {
 
 	usage : function() {
 		console.log("Usage: grao [OPTION...] [NAME]" + "\n" + 
-					"GrãoJS Tools, options:" + "\n" +
-					"  -a, --app, --new-app, new-app, app\t\t\tCreate a new GrãoJS application" + "\n" +
+					"graoJS Tools, options:" + "\n" +
+					"  -a, --app, --new-app, new-app, app\t\t\tCreate a new graoJS application" + "\n" +
 					"  -b, --bundle, --new-bundle, new-bundle, bundle\tCreate a new bundle" + "\n" +
 					"  -e, --schema, --new-schema, new-schema, schema\tCreate a new schema" + "\n" +
 					"  -g, --gen, --generate, generate, gen\t\t\tGenerate a new bundle of schema" + "\n" +

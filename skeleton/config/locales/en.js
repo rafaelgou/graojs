@@ -1,7 +1,7 @@
 {
 	"12345": "12345",
-	"GrãoJS!": "GrãoJS!",
-	"O GrãoJS....": "O GrãoJS....",
+	"graoJS!": "graoJS!",
+	"O graoJS....": "O graoJS....",
 	"Havendo olhos suficientes, todos os erros são óbvios.": "Havendo olhos suficientes, todos os erros são óbvios.",
 	"Por": "Por",
 	"Saiba mais": "Saiba mais",
