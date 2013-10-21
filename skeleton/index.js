@@ -1,7 +1,7 @@
 var GraoJS = require('graojs'),
-	grao = new GraoJS();
+	graoJS = new GraoJS();
 
-grao.start();
-//grao.stop();
-//grao.restart();
-grao.status();
+graoJS.start();
+//graoJS.stop();
+//graoJS.restart();
+graoJS.status();
