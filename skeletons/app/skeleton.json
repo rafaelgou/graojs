@@ -50,6 +50,7 @@
     "config/prod.js": "{{app_name}}/config/prod.js",
     "config/default.skeleton.json": "{{app_name}}/config/default.skeleton.json",
     "index.js": "{{app_name}}/index.js",
+    "package.json": "{{app_name}}/package.json",
     "bundles/frontend/FrontendRoute.js": "{{app_name}}/bundles/frontend/FrontendRoute.js",
     "bin/grao.sh": "{{app_name}}/bin/grao.sh"
   },
