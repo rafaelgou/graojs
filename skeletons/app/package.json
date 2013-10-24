@@ -1,0 +1,15 @@
+{
+  "name": "{{app_name}}",
+  "description": "{{app_description}}",
+  "version": "0.0.1",
+  "author": "{{author_name}} <{{author_email}}",
+  "readme" : "README.md",
+  "dependencies": {
+	    "graojs": "0.0.x"
+  },
+  "keywords": [
+    "grao",
+    "graojs"
+  ],
+  "engines": { "node": ">= 0.8.x" }
+}

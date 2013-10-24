@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "title": "Generating graoJS Application"
+  },
+  "properties": {
+    "app_name": {
+      "description": "Application Name (lowercase letters)",
+      "pattern": "^[a-z]+$",
+      "message": "Must be only lowercase letters - no uppercase letters, spaces, numbers, special chars",
+      "required": true
+    },
+    "app_description": {
+      "description": "Application Description",
+      "required": true
+    },
+    "author_name": {
+      "description": "Author",
+      "required": true
+    },
+    "server_ports":{
+      "description": "Starting port to server (comma separated)",
+      "required": true,
+      "pattern": "^([0-9]{4,5})+(,([0-9]{4,5})+)*$",
+      "message": "Must be a comma separated list of port numbers > 1024",
+      "default": "8015,8016,8017,8018,8019,8020,8021,8022"
+    },
+    "author_email": {
+      "description": "Author's Email",
+      "required": true
+    },
+    "template_engine": {
+      "description": "Template Engine (swig or jade)",
+      "pattern": "^swig|jade$",
+      "message": "Must be swig or jade",
+      "required": true,
+      "default": "swig"
+    },
+    "mongodb_host":{
+      "description": "MongoDB Host",
+      "required": true,
+      "default": "localhost"
+    },
+    "mongodb_db":{
+      "description": "MongoDB Database",
+      "required": true,
+      "default": "grao"
+    }
+  },
+  "tpls": {
+    "skeletons/app/config/prod.js": "{{app_name}}/config/prod.js",
+    "skeletons/app/config/default.skeleton.json": "{{app_name}}/config/default.skeleton.json",
+    "skeletons/app/index.js": "{{app_name}}/index.js",
+    "skeletons/app/bundles/frontend/FrontendRoute.js": "{{app_name}}/bundles/frontend/FrontendRoute.js",
+    "skeletons/app/bin/grao.sh": "{{app_name}}/bin/grao.sh"
+  },
+  "tpls_conditional": [
+    {
+      "condition": "result.template_engine == 'swig'",
+      "tpls": {
+        "skeletons/app/bundles/frontend/theme-swig/layout.html": "{{app_name}}/bundles/frontend/theme/layout.html",
+        "skeletons/app/bundles/frontend/theme-swig/nav.html": "{{app_name}}/bundles/frontend/theme/nav.html"
+      }
+    }
+  ]
+}
