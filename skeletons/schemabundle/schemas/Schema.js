@@ -1,10 +1,12 @@
-var UserSchema = function(di) {
+var {{ name | capitalize }}Schema = function(di) {
 	validate = di.validate;
 	validator = di.validators.user;
 
 	this.json = {
-		id : di.mongoose.Schema.ObjectId,
-		username : {
+		id : di.mongoose.Schema.ObjectId
+  {#
+  ,
+  	username : {
 			type : String,
 			lowercase : true,
 			required : true,
@@ -27,9 +29,10 @@ var UserSchema = function(di) {
 			required : true,
 			validate : validator.password
 		}
+#}
 	};
 
 	this.mongoose = new di.mongoose.Schema(this.json);
 };
 
-module.exports = exports = UserSchema;
+module.exports = exports = {{ name | capitalize }}Schema;

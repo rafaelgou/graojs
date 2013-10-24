@@ -29,8 +29,7 @@
 	    "fs-extra",
 	    "stack-trace",
       "prompt",
-      "wrench",
-      "optimist"
+      "wrench"
   ],
   "keywords": [
     "framework",

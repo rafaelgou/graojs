@@ -33,7 +33,7 @@
       "pattern": "^swig|jade$",
       "message": "Must be swig or jade",
       "required": true,
-      "default": "swig"
+      "default": "jade"
     },
     "mongodb_host":{
       "description": "MongoDB Host",

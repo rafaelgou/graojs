@@ -11,6 +11,8 @@
     }
   },
   "tpls": {
+    "public/js/PublicController.js": "bundles/{{name}}/public/js/{{name | capitalize}}PublicController.js",
+    "schemas/Schema.js": "bundles/{{name}}/schemas/{{name | capitalize}}Schema.js",
     "Controller.js": "bundles/{{name}}/{{name | capitalize}}Controller.js",
     "Model.js": "bundles/{{name}}/{{name | capitalize}}Model.js",
     "Route.js": "bundles/{{name}}/{{name | capitalize}}Route.js",
@@ -26,19 +28,9 @@
     {
       "condition": "result.template_engine == 'jade'",
       "tpls": {
-        "theme-jade/currency.jade": "bundles/{{name | lower}}/view/currency.jade",
         "theme-jade/dashboard.jade": "bundles/{{name | lower}}/view/dashboard.jade",
-        "theme-jade/date.jade": "bundles/{{name | lower}}/view/date.jade",
         "theme-jade/form.jade": "bundles/{{name | lower}}/view/form.jade",
         "theme-jade/grid.jade": "bundles/{{name | lower}}/view/grid.jade",
-        "theme-jade/input_checkbox.jade": "bundles/{{name | lower}}/view/input_checkbox.jade",
-        "theme-jade/input_email.jade": "bundles/{{name | lower}}/view/input_email.jade",
-        "theme-jade/input_number.jade": "bundles/{{name | lower}}/view/input_number.jade",
-        "theme-jade/input_radio.jade": "bundles/{{name | lower}}/view/input_radio.jade",
-        "theme-jade/input_text.jade": "bundles/{{name | lower}}/view/input_text.jade",
-        "theme-jade/input_url.jade": "bundles/{{name | lower}}/view/input_url.jade",
-        "theme-jade/select.jade": "bundles/{{name | lower}}/view/select.jade",
-        "theme-jade/textarea.jade": "bundles/{{name | lower}}/view/textarea.jade"
       }
     }
   ]
