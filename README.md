@@ -42,8 +42,12 @@ https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
 
 ##### graoJS install and run:
 -	sudo npm install -g graojs
--	grao app demo
+-	grao generate:app demo
 -	node demo/index.js 
+
+##### Other command options
+-	grao
+
 
 License
 -------

@@ -14,6 +14,7 @@ module.exports = exports = {
 	vendor: rootPath + '/vendor',
 	locales: rootPath + '/config/locales',
 	name : packageJson.description,
+  template_engine : '{{ template_engine }}',
 	log : {
 		transport : {
 			console : {

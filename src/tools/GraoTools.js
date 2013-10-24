@@ -80,5 +80,9 @@ var GraoTools = function() {
     var argsProcessed = args.slice(1);
     return argsProcessed;
   }
+
+  this.checkAppOnly = function() {
+
+  }
 };
 module.exports = exports = GraoTools;

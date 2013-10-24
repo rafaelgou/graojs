@@ -24,22 +24,25 @@ var GraoGenerator = function(){
     "schemabundle": "skeletons/schemabundle",
     "bundle": "skeletons/bundle"
   };
+  this.promptArgs = {};
 
   this.setSkeleton = function (type, skeleton) {
     this.skelPath = skeleton ? skeleton : path.join(__dirname, '/../../', this.defaultSkels[type]);
   }
 
-  this.generate = function() {
+  this.generate = function(callback) {
 
     this.skelFilename = path.join(this.skelPath, this.skelDefaultFilename);
-    config = this.config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
+
+    this.config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
+
     this.defaults = fs.existsSync(path.join(process.cwd(), '/config/default.skeleton.json'))
       ? JSON.parse( fs.readFileSync(path.join(process.cwd(), '/config/default.skeleton.json')))
       : {};
 
     Object.keys(this.defaults).forEach(function(key){
-      if(config.properties[key]) {
-        config.properties[key]['default'] = defaults[key];
+      if(self.config.properties[key]) {
+        self.config.properties[key]['default'] = defaults[key];
       }
     });
 
@@ -48,10 +51,12 @@ var GraoGenerator = function(){
     prompt.message = "";
     prompt.delimiter = ":".green;
 
-    prompt.get(config, function (err, result ) {
+    prompt.get(self.config, function (err, result ) {
+
+      this.promptArgs = result;
       if (err) { return onErr(err); }
 
-      var tpls = config.tpls || {};
+      var tpls = self.config.tpls || {};
       var tpls_conditional = self.config.tpls_conditional || {};
 
       for (var i in tpls_conditional) {
@@ -64,7 +69,11 @@ var GraoGenerator = function(){
 
       self.writeTpls(tpls, result);
 
+      if (callback && typeof(callback) === "function") {
+        callback(this);
+      }
     });
+
   };
 
   this.writeTpls = function (tpls, result) {

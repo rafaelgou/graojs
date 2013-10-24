@@ -10,17 +10,20 @@ var GraoCommands = function(){
     {
       id: 'version',
       'method': 'runVersion',
-      'desc': 'Shows graoJS version'
+      'desc': 'Shows graoJS version',
+      'app_only': false
     },
     {
       id: 'asciiart',
       'method': 'runAsciiart',
-      'desc': 'Shows graoJS logo on ASCII Art'
+      'desc': 'Shows graoJS logo on ASCII Art',
+      'app_only': false
     },
     {
       id: 'hello:word',
       'method': 'runHelloWord',
-      'desc': 'Sample hello word command'
+      'desc': 'Sample hello word command',
+      'app_only': false
     }
   ];
 
