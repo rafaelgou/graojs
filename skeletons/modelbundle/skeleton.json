@@ -4,9 +4,9 @@
   },
   "properties": {
     "name": {
-      "description": "Model Name (lower caps, no spaces)",
-      "pattern": "^[a-zA-Z\\.\\-\\d]+$",
-      "message": "Name must be only letters, numbers, dots, or dashes",
+      "description": "Model Name (lowercase letters)",
+      "pattern": "^[a-z]+$",
+      "message": "Must be only lowercase letters - no uppercase letters, spaces, numbers, special chars",
       "required": true
     }
   },

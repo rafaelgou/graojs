@@ -66,13 +66,14 @@ var GraoScaffolding = function(){
   this.generate = function() {
 
     this.skelFilename = path.join(this.skelPath, this.skelDefaultFilename);
-    this.config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
-    this.defaults = fs.existsSync( process.cwd() + '/config/default.skeleton.json' )
-      ? JSON.parse( fs.readFileSync( defaultFile )) : {};
+    config = this.config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
+    this.defaults = fs.existsSync(path.join(process.cwd(), '/config/default.skeleton.json'))
+      ? JSON.parse( fs.readFileSync(path.join(process.cwd(), '/config/default.skeleton.json')))
+      : {};
 
     Object.keys(this.defaults).forEach(function(key){
-      if(this.config.properties[key]) {
-        this.config.properties[key]['default'] = defaults[key];
+      if(config.properties[key]) {
+        config.properties[key]['default'] = defaults[key];
       }
     });
 
