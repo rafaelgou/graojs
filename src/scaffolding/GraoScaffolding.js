@@ -10,7 +10,7 @@ var argv = require('optimist').argv;
 //"pattern": "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}",
 //"message": "Invalid email",
 
-var GraoScaffolding = function( config, jsonFile ){
+var GraoScaffolding = function(){
 
   this.config = {};
   this.defaults = {};
@@ -56,28 +56,27 @@ var GraoScaffolding = function( config, jsonFile ){
           this.usage();
       }
 
-      this.skelFilename = path.join(this.skelPath, this.skelDefaultFilename);
-      config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
-      this.generate(config, this.skelFilename);
+      this.generate();
 
     } else {
       this.usage();
     }
   };
 
-  this.generate = function( config, jsonFile ) {
-    this.config = config;
-    this.skeletonPath = path.dirname(jsonFile) + '/';
+  this.generate = function() {
+
+    this.skelFilename = path.join(this.skelPath, this.skelDefaultFilename);
+    this.config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
     this.defaults = fs.existsSync( process.cwd() + '/config/default.skeleton.json' )
       ? JSON.parse( fs.readFileSync( defaultFile )) : {};
 
     Object.keys(this.defaults).forEach(function(key){
-      if(config.properties[key]) {
-        config.properties[key]['default'] = defaults[key];
+      if(this.config.properties[key]) {
+        this.config.properties[key]['default'] = defaults[key];
       }
     });
 
-    console.log("\n" + config.meta.title.yellow);
+    console.log("\n" + this.config.meta.title.yellow);
     console.log(Array(100).join('-').yellow);
     console.log("\n" + ('Loading from: ' + this.skelFilename).green + "\n");
 
@@ -87,6 +86,8 @@ var GraoScaffolding = function( config, jsonFile ){
     prompt.delimiter = ":".green;
 
     var scaffolding = this;
+    var config = this.config;
+
     prompt.get(config, function (err, result ) {
       if (err) { return onErr(err); }
 
@@ -108,21 +109,22 @@ var GraoScaffolding = function( config, jsonFile ){
 
   this.writeTpls = function (tpls, result) {
 
+    var skelPath = this.skelPath;
+
     Object.keys(tpls).forEach(function( tpl ) {
       var swig_result = { locals: result };
       var dist = swig.render( tpls[tpl], swig_result );
       var distDir = path.dirname(dist);
 
-      if( fs.statSync(skeletonPath + tpl).isFile() ){
-
+      if( fs.statSync(path.join(skelPath, tpl)).isFile() ){
         wrench.mkdirSyncRecursive( distDir );
 
         fs.exists('./' + dist, function (exists) {
           if (exists) {
-            console.log('! ' + './' + dist);
+            console.log(('! ' + './' + dist).red);
           } else {
-            fs.writeFileSync( dist, swig.render( fs.readFileSync(skeletonPath + tpl, 'utf-8'), swig_result));
-            console.log('+ ' + './' + dist);
+            fs.writeFileSync(dist, swig.render(fs.readFileSync(path.join(skelPath, tpl), 'utf-8'), swig_result));
+            console.log(('+ ' + './' + dist).green);
           }
         });
 
