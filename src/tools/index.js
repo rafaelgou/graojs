@@ -1,25 +1,17 @@
-var config = require('./GraoToolsConfig'),
-	GraoTools = require('./GraoTools');
+var GraoTools = require('./GraoTools');
+var GraoCommands = require('../commands/GraoCommands');
+var GraoServerCommands = require('../commands/GraoServerCommands');
+var GraoGeneratorCommands = require('../commands/GraoGeneratorCommands');
 
 try {	
-	config.parseOptions();
-	var tools = new GraoTools(config);
-
-	if(config.newApp) {
-		tools.newApp();
-	} else if(config.newBundle) {
-		tools.newBundle();
-	} else if(config.newSchema) {
-		tools.newSchema();
-	} else if(config.generate) {
-		tools.generate();
-	} else {
-		config.usage();
-	}	
+	var tools = new GraoTools();
+  tools.addCommands(new GraoCommands);
+  tools.addCommands(new GraoGeneratorCommands);
+  tools.addCommands(new GraoServerCommands);
+  tools.init();
 } catch(exception) {
 	console.log('Error: '+exception);
 	process.exit(-1);
 }
-
 
 module.exports = exports = tools;
