@@ -68,8 +68,11 @@ var GraoGeneratorCommands = function(){
       fs.mkdirSync(appPath+"/node_modules", 0755);
       //fs.unlinkSync(dirApp+"/vendor/graojs");
       //fs.unlinkSync(dirApp+"/node_modules");
-      fs.copy(path.join(__dirname, "/../../node_modules"), path.join(appPath, "/node_modules/graojs/node_modules"), function(){
-        console.log(('+ graoJS core and deps:' + path.join(appPath, "/node_modules/graojs")).green);
+      fs.copy(path.join(__dirname, "/../../src"), path.join(appPath, "/node_modules/graojs"), function() {
+        fs.copy(path.join(__dirname, "/../../node_modules"), path.join(appPath, "/node_modules/graojs/node_modules"), function() {
+          fs.copy(path.join(__dirname, "/../../index.js"), path.join(appPath, "/node_modules/graojs/index.js"));
+          console.log(('+ graoJS core and deps:' + path.join(appPath, "/node_modules/graojs")).green);
+        });
       });
     };
   }
