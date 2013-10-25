@@ -47,20 +47,84 @@
     }
   },
   "tpls": {
-    "config/prod.js": "{{app_name}}/config/prod.js",
-    "config/default.skeleton.json": "{{app_name}}/config/default.skeleton.json",
-    "index.js": "{{app_name}}/index.js",
-    "package.json": "{{app_name}}/package.json",
-    "bundles/frontend/FrontendRoute.js": "{{app_name}}/bundles/frontend/FrontendRoute.js",
-    "bin/grao.sh": "{{app_name}}/bin/grao.sh"
+
+
+    "package.json": "{{ app_name }}/package.json",
+    "LICENSE": "{{ app_name }}/LICENSE",
+    "index.js": "{{ app_name }}/index.js",
+    "skeleton.json": "{{ app_name }}/skeleton.json",
+
+    "bin/stress.sh": "{{ app_name }}/bin/stress.sh",
+    "bin/graolinks.sh": "{{ app_name }}/bin/graolinks.sh",
+    "bin/grao.sh": "{{ app_name }}/bin/grao.sh",
+
+    "scripts/stress.sh": "{{ app_name }}/scripts/stress.sh",
+    "scripts/graolinks.sh": "{{ app_name }}/scripts/graolinks.sh",
+    "scripts/grao.sh": "{{ app_name }}/scripts/grao.sh",
+
+    "config/prod.js": "{{ app_name }}/config/prod.js",
+    "config/default.skeleton.json": "{{ app_name }}/config/default.skeleton.json",
+    "config/locales/pt-br.js": "{{ app_name }}/config/locales/pt-br.js",
+    "config/locales/en.js": "{{ app_name }}/config/locales/en.js",
+
+    "bundles/frontend/FrontendRoute.js": "{{ app_name }}/bundles/frontend/FrontendRoute.js",
+
+    "bundles/frontend/public/js/TopbarPublicController.js": "{{ app_name }}/bundles/frontend/public/js/TopbarPublicController.js",
+    "bundles/frontend/public/js/factory.js": "{{ app_name }}/bundles/frontend/public/js/factory.js",
+    "bundles/frontend/public/js/config.js": "{{ app_name }}/bundles/frontend/public/js/config.js",
+
+    "bundles/frontend/public/img/flag/es.png": "{{ app_name }}/bundles/frontend/public/img/flag/es.png",
+    "bundles/frontend/public/img/flag/hr.png": "{{ app_name }}/bundles/frontend/public/img/flag/hr.png",
+    "bundles/frontend/public/img/flag/se.png": "{{ app_name }}/bundles/frontend/public/img/flag/se.png",
+    "bundles/frontend/public/img/flag/kr.png": "{{ app_name }}/bundles/frontend/public/img/flag/kr.png",
+    "bundles/frontend/public/img/flag/be.png": "{{ app_name }}/bundles/frontend/public/img/flag/be.png",
+    "bundles/frontend/public/img/flag/ca.png": "{{ app_name }}/bundles/frontend/public/img/flag/ca.png",
+    "bundles/frontend/public/img/flag/de.png": "{{ app_name }}/bundles/frontend/public/img/flag/de.png",
+    "bundles/frontend/public/img/flag/dk.png": "{{ app_name }}/bundles/frontend/public/img/flag/dk.png",
+    "bundles/frontend/public/img/flag/ar.png": "{{ app_name }}/bundles/frontend/public/img/flag/ar.png",
+    "bundles/frontend/public/img/flag/us.png": "{{ app_name }}/bundles/frontend/public/img/flag/us.png",
+    "bundles/frontend/public/img/flag/it.png": "{{ app_name }}/bundles/frontend/public/img/flag/it.png",
+    "bundles/frontend/public/img/flag/gb.png": "{{ app_name }}/bundles/frontend/public/img/flag/gb.png",
+    "bundles/frontend/public/img/flag/za.png": "{{ app_name }}/bundles/frontend/public/img/flag/za.png",
+    "bundles/frontend/public/img/flag/cl.png": "{{ app_name }}/bundles/frontend/public/img/flag/cl.png",
+    "bundles/frontend/public/img/flag/in.png": "{{ app_name }}/bundles/frontend/public/img/flag/in.png",
+    "bundles/frontend/public/img/flag/cu.png": "{{ app_name }}/bundles/frontend/public/img/flag/cu.png",
+    "bundles/frontend/public/img/flag/cz.png": "{{ app_name }}/bundles/frontend/public/img/flag/cz.png",
+    "bundles/frontend/public/img/flag/ru.png": "{{ app_name }}/bundles/frontend/public/img/flag/ru.png",
+    "bundles/frontend/public/img/flag/jp.png": "{{ app_name }}/bundles/frontend/public/img/flag/jp.png",
+    "bundles/frontend/public/img/flag/gr.png": "{{ app_name }}/bundles/frontend/public/img/flag/gr.png",
+    "bundles/frontend/public/img/flag/pt-br.png": "{{ app_name }}/bundles/frontend/public/img/flag/pt-br.png",
+    "bundles/frontend/public/img/flag/ch.jpg": "{{ app_name }}/bundles/frontend/public/img/flag/ch.jpg",
+
+    "bundles/frontend/public/css/layout.css": "{{ app_name }}/bundles/frontend/public/css/layout.css"
   },
   "tpls_conditional": [
     {
       "condition": "result.template_engine == 'swig'",
       "tpls": {
-        "bundles/frontend/theme-swig/layout.html": "{{app_name}}/bundles/frontend/theme/layout.html",
-        "bundles/frontend/theme-swig/nav.html": "{{app_name}}/bundles/frontend/theme/nav.html"
+        "bundles/frontend/theme-swig/nav.html": "{{ app_name }}/bundles/frontend/theme-swig/nav.html",
+        "bundles/frontend/theme-swig/layout.html": "{{ app_name }}/bundles/frontend/theme-swig/layout.html"
+      }
+    },
+    {
+      "condition": "result.template_engine == 'jade'",
+      "tpls": {
+        "bundles/frontend/view-jade/home.jade": "{{ app_name }}/bundles/frontend/view/home.jade",
+        "bundles/frontend/view-jade/index.jade": "{{ app_name }}/bundles/frontend/view/index.jade",
+        "bundles/frontend/view-jade/explore.jade": "{{ app_name }}/bundles/frontend/view/explore.jade",
+        "bundles/frontend/view-jade/manifest.jade": "{{ app_name }}/bundles/frontend/view/manifest.jade",
+        "bundles/frontend/view-jade/pricing.jade": "{{ app_name }}/bundles/frontend/view/pricing.jade",
+        "bundles/frontend/theme-jade/layout_home.jade": "{{ app_name }}/bundles/frontend/theme/layout_home.jade",
+        "bundles/frontend/theme-jade/head.jade": "{{ app_name }}/bundles/frontend/theme/head.jade",
+        "bundles/frontend/theme-jade/app.jade": "{{ app_name }}/bundles/frontend/theme/app.jade",
+        "bundles/frontend/theme-jade/foot.jade": "{{ app_name }}/bundles/frontend/theme/foot.jade",
+        "bundles/frontend/theme-jade/topbar.jade": "{{ app_name }}/bundles/frontend/theme/topbar.jade",
+        "bundles/frontend/theme-jade/css.jade": "{{ app_name }}/bundles/frontend/theme/css.jade",
+        "bundles/frontend/theme-jade/adminmenu.jade": "{{ app_name }}/bundles/frontend/theme/adminmenu.jade",
+        "bundles/frontend/theme-jade/layout.jade": "{{ app_name }}/bundles/frontend/theme/layout.jade",
+        "bundles/frontend/theme-jade/javascript.jade": "{{ app_name }}/bundles/frontend/theme/javascript.jade"
       }
     }
   ]
 }
+
