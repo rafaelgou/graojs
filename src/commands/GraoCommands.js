@@ -20,9 +20,9 @@ var GraoCommands = function(){
       'app_only': false
     },
     {
-      id: 'hello:word',
-      'method': 'runHelloWord',
-      'desc': 'Sample hello word command',
+      id: 'hello:world',
+      'method': 'runHelloWorld',
+      'desc': 'Sample hello world command',
       'app_only': false
     }
   ];
@@ -37,7 +37,7 @@ var GraoCommands = function(){
     console.log("\n" + fs.readFileSync(path.join(__dirname, '/../..',  'graojs.ascii'), { encoding: 'utf8' }));
   }
 
-  this.runHelloWord = function(args) {
+  this.runHelloWorld = function(args) {
 
     var promptOptions = {
       "properties": {
@@ -49,6 +49,9 @@ var GraoCommands = function(){
         }
       }
     }
+
+    prompt.message = "";
+    prompt.delimiter = ":".green;
 
     prompt.get(promptOptions, function (err, result ) {
       if (err) { return onErr(err); }

@@ -4,21 +4,18 @@ var args = process.argv.slice(2);
 var cmdId = (args.length > 0) ? args[args.length-1] : null;
 var prompt = require('prompt');
 
-// TODO use di, load Commands automaticly
-//var GraoTools = function(di) {
 var GraoTools = function() {
 	var self = this; // holder
 	this.currentDir = process.cwd();
-//  this.di = di;
 
   this.commands = {};
   this.actions  = {};
-  this.usageDescs = [];
 
-  this.usage = function() {
+  this.usage = function(msg) {
 
     console.log(("\n" + fs.readFileSync(path.join(__dirname, '/../..',  'graojs.ascii'), { encoding: 'utf8' })).yellow);
     console.log("\n" +"Usage: grao [OPTION...] [NAME]".yellow + "\n" + Array(70).join('=').yellow);
+
     Object.keys(this.commands).forEach(function(commandId) {
       var command = self.commands[commandId];
       console.log("\n" + command.title + "\n" + Array(70).join('-'));
@@ -27,6 +24,10 @@ var GraoTools = function() {
       };
     });
     console.log("\n");
+
+    if (msg != undefined) {
+      console.log(msg);
+    }
     process.exit(-1);
   };
 
@@ -70,8 +71,7 @@ var GraoTools = function() {
       msg = msg + Array(70 - msg.length).join(' ')
       var line = Array(70).join(' ') + "\n";
 
-      console.log( "\n" +( line + msg + "\n" + line).red.inverse)
-      this.usage();
+      this.usage("\n" +( line + msg + "\n" + line).red.inverse);
     }
   }
 

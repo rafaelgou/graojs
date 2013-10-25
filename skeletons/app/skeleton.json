@@ -35,6 +35,13 @@
       "required": true,
       "default": "jade"
     },
+    "theme": {
+      "description": "Bootstrap Theme => graojs (default), bootstrap (original) or Bootswatch's options",
+      "pattern": "^graojs|bootstrap|amelia|cerulean|cosmo|cyborg|flatly|journal|readable|simplex|slate|spacelab|united$",
+      "message": "Must be one of: graojs|bootstrap|amelia|cerulean|cosmo|cyborg|flatly|journal|readable|simplex|slate|spacelab|united",
+      "required": true,
+      "default": "graojs"
+    },
     "mongodb_host":{
       "description": "MongoDB Host",
       "required": true,
