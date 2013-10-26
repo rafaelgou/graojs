@@ -1,87 +1,137 @@
-var fs = require('fs');
-var path = require('path');
-var args = process.argv.slice(2);
-var cmdId = (args.length > 0) ? args[args.length-1] : null;
-var prompt = require('prompt');
+var
+  path = require( 'path' ),
+  fs = require( 'fs-extra' ),
+  prompt = require( 'prompt'),
+  argv = require( 'optimist' ).argv;
 
 var GraoTools = function() {
-	var self = this; // holder
-	this.currentDir = process.cwd();
 
+	var self = this;
+
+	this.currentDir = process.cwd();
+  this.cmdId = ( argv._.length > 0 )
+             ? argv._[0]
+             : null;
   this.commands = {};
   this.actions  = {};
 
-  this.usage = function(msg) {
+  this.usage = function( msg ) {
 
-    console.log(("\n" + fs.readFileSync(path.join(__dirname, '/../..',  'graojs.ascii'), { encoding: 'utf8' })).yellow);
-    console.log("\n" +"Usage: grao [OPTION...] [NAME]".yellow + "\n" + Array(70).join('=').yellow);
+    console.log( ( "\n" + fs.readFileSync( path.join( __dirname, '/../..',  'graojs.ascii' ), { encoding: 'utf8' } ) ).yellow );
+    console.log( "\n" +"Usage: grao [OPTION...] [NAME]".yellow + "\n" + Array( 70 ).join( '=' ).yellow );
 
-    Object.keys(this.commands).forEach(function(commandId) {
+    Object.keys( this.commands ).forEach( function( commandId ) {
       var command = self.commands[commandId];
-      console.log("\n" + command.title + "\n" + Array(70).join('-'));
-      for (var i in command.actions) {
-        console.log(self.getActionDesc(command.id + ':' + command.actions[i].id));
-      };
+      console.log( "\n" + command.title + "\n" + Array( 70 ).join( '-' ) );
+      for ( var i in command.actions ) {
+        console.log( self.getActionDesc( command.id + ':' + command.actions[i].id ) );
+      }
     });
-    console.log("\n");
+    console.log( "\n" );
 
-    if (msg != undefined) {
-      console.log(msg);
+    if ( msg != undefined ) {
+      console.log( msg );
     }
-    process.exit(-1);
+    process.exit( -1 );
   };
 
   this.init = function() {
-    if (cmdId != undefined) {
-      this.run(cmdId, this.processArgs(args));
-    } else {
+
+    if ( this.cmdId ===  null ) {
       this.usage();
+    } else {
+      this.run( this.cmdId, argv );
     }
+
   }
 
-  this.addCommands = function(commands) {
+  this.addCommands = function( commands ) {
+
     this.commands[commands.id] = commands;
 
-    for (var i in commands.actions) {
+    for ( var i in commands.actions ) {
+
       var action = commands.actions[i];
       var actionId = commands.id + ':' + action.id;
       this.actions[actionId] = action;
       this.actions[actionId].class = commands.id;
+
     };
+
   }
 
-  this.getActionDesc = function(actionId) {
-    if (this.actions.hasOwnProperty(actionId)) {
+  this.getActionDesc = function( actionId ) {
+
+    if ( this.actions.hasOwnProperty( actionId ) ) {
       var action = this.actions[actionId];
-      return '  ' + actionId.green + Array(30 - actionId.length).join(' ') + action.desc;
+      return '  ' + actionId.green + Array( 30 - actionId.length ).join( ' ' ) + action.desc;
     } else {
-      return ("\n  !! Error: Action [" + fullId + "] doesn't exist!\n").red.inverse;
+      return ( "\n  !! Error: Action [" + fullId + "] doesn't exist!\n" ).red.inverse;
     }
+
   }
 
-  this.run = function(actionId, args) {
-    if (this.actions.hasOwnProperty(actionId)) {
-      console.log("\n" + this.actions[actionId].desc.yellow);
-      console.log(Array(70).join('-').yellow);
-      var command = this.commands[this.actions[actionId].class];
-      command[this.actions[actionId].method](args);
+  this.run = function( actionId, argv ) {
+
+    if ( this.actions.hasOwnProperty( actionId ) ) {
+
+      this.checkAppOnly(actionId);
+
+      var action = this.actions[actionId];
+      var command = this.commands[action.class];
+
+      console.log( "\n" + action.desc.yellow );
+      console.log( Array( 70 ).join( '-' ).yellow );
+
+      prompt.message = "";
+      prompt.delimiter = ":".green;
+      prompt.override = argv;
+      prompt.start();
+
+      command[this.actions[actionId].method]( argv, prompt, action.promptSchema);
+
     } else {
 
-      var msg = "  !! Error: Action [" + actionId + "] doesn't exist!";
-      msg = msg + Array(70 - msg.length).join(' ')
-      var line = Array(70).join(' ') + "\n";
+      var msg = "Error: Action [" + actionId + "] doesn't exist!";
 
-      this.usage("\n" +( line + msg + "\n" + line).red.inverse);
+      this.usage( msg.red.inverse );
     }
+
   }
 
-  // TODO a better args processing, options (--blah, -b), like node-optimist??
-  this.processArgs = function(args) {
-    var argsProcessed = args.slice(1);
-    return argsProcessed;
-  }
+  this.checkAppOnly = function(actionId) {
 
-  this.checkAppOnly = function() {
+    if ( this.actions.hasOwnProperty( actionId ) ) {
+
+      if ( this.actions[actionId].appOnly ) {
+
+        var skeletonExists = fs.existsSync( path.join( this.currentDir, 'config/default.skeleton.json' ) );
+        var prodJsExists = fs.existsSync( path.join( this.currentDir, 'config/prod.js' ) );
+        var graoJsExists = fs.existsSync( path.join( this.currentDir, 'node_modules/graojs/index.js' ) );
+
+        if ( skeletonExists && prodJsExists && graoJsExists ) {
+
+          return true;
+
+        } else {
+
+          var msg = "Error: Action [" + actionId + "] must run inside a graoJS project!";
+          this.usage( msg.red.inverse );
+
+        }
+
+      } else {
+
+
+      }
+
+
+    } else {
+
+      var msg = "Error: Action [" + actionId + "] doesn't exist!";
+      this.usage( msg.red.inverse );
+
+    }
 
   }
 };

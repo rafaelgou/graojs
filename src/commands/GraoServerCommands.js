@@ -1,57 +1,64 @@
-var path   = require('path');
-var fs     = require('fs');
-var prompt = require('prompt');
-
 var GraoServerCommands = function(){
 
-  this.id = 'server'
-  this.title = 'graoJS Server commands'
+  this.id = 'server';
+  this.title = 'graoJS Server commands';
   this.actions = [
     {
       id: 'run:dev',
-      'method': 'runRunDev',
-      'desc': 'Run server on DEV environment (with node-supervisor)',
-      'app_only': true
+      method: 'runRunDev',
+      desc: 'Run server on DEV environment (with node-supervisor)',
+      appOnly: true,
+      promptSchema: {}
     },
     {
       id: 'run:prod',
-      'method': 'runRunProd',
-      'desc': 'Run server on PROD environment (with node-forever)',
-      'app_only': true
+      method: 'runRunProd',
+      desc: 'Run server on PROD environment (with node-forever)',
+      appOnly: true,
+      promptSchema: {}
     },
     {
       id: 'dump:nginx',
-      'method': 'runDumpNginx',
-      'desc': 'Dump Nginx configuration',
-      'app_only': true
+      method: 'runDumpNginx',
+      desc: 'Dump Nginx configuration',
+      appOnly: true,
+      promptSchema: {}
     },
     {
       id: 'dump:apache2',
-      'method': 'runDumpApache2',
-      'desc': 'Dump Apache2 configuration',
-      'app_only': true
+      method: 'runDumpApache2',
+      desc: 'Dump Apache2 configuration',
+      appOnly: true,
+      promptSchema: {}
     }
-
   ];
 
   // TODO
-  this.runRunDev = function(args) {
-    console.log('TODO runRunDev');
+  this.runRunDev = function( argv, prompt, schema ) {
+
+    console.log( 'TODO runRunDev' );
+
   }
 
   // TODO
-  this.runRunProd = function(args) {
-    console.log('TODO runRunProd');
+  this.runRunProd = function( argv, prompt, schema ) {
+
+    console.log( 'TODO runRunProd' );
+
   }
 
   // TODO
-  this.runDumpNginx = function(args) {
-    console.log('TODO runDumpNginx');
+  this.runDumpNginx = function( argv, prompt, schema ) {
+
+    console.log( 'TODO runDumpNginx' );
+
   }
 
   // TODO
-  this.runDumpApache2 = function(args) {
-    console.log('TODO runDumpApache2');
+  this.runDumpApache2 = function( argv, prompt, schema ) {
+
+    console.log( 'TODO runDumpApache2' );
+
   }
 
 }

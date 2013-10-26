@@ -1,86 +1,124 @@
-var path   = require('path');
-var fs     = require('fs-extra');
-var prompt = require('prompt');
-var generator = require('../generator');
+var
+  path = require( 'path' ) ,
+  fs = require( 'fs-extra' ),
+  prompt = require( 'prompt' ),
+  generator = require( '../generator' );
 
-var GraoGeneratorCommands = function(){
+var GraoGeneratorCommands = function() {
 
   var self = this;
 
-  this.id = 'generate'
-  this.title = 'graoJS Generator commands'
+  this.id = 'generate';
+  this.title = 'graoJS Generator commands';
   this.actions = [
     {
       id: 'app',
-      'method': 'runGenerateApp',
-      'desc': 'Generate a new graoJS Application',
-      'app_only': false
+      method: 'runGenerateApp',
+      desc: 'Generate a new graoJS Application',
+      appOnly: false,
+      promptSchema: {}
     },
     {
       id: 'bundle',
-      'method': 'runGenerateBundle',
-      'desc': 'Generate a new graoJS Bundle',
-      'app_only': true
+      method: 'runGenerateBundle',
+      desc: 'Generate a new graoJS Bundle',
+      appOnly: true,
+      promptSchema: {}
     },
     {
       id: 'schemabundle',
-      'method': 'runGenerateSchemaBundle',
-      'desc': 'Generate a new graoJS Bundle with a Schema',
-      'app_only': true
+      method: 'runGenerateSchemaBundle',
+      desc: 'Generate a new graoJS Bundle with a Schema',
+      appOnly: true,
+      promptSchema: {}
     },
     {
       id: 'schema',
-      'method': 'runGenerateSchema',
-      'desc': 'Generate a new graoJS Mongoose Schema',
-      'app_only': true
+      method: 'runGenerateSchema',
+      desc: 'Generate a new graoJS Mongoose Schema',
+      appOnly: true,
+      promptSchema: {}
     }
-
   ];
 
-  this.runGenerateApp = function(args) {
-    var skeletton = null;
-    generator.setSkeleton('app', skeletton);
-    generator.generate(function(generator) {
-      console.log(generator.promptArgs.app_name);
-      console.log(process.cwd());
-      if (generator.promptArgs.hasOwnProperty('app_name')) {
-        self.copyGraoDeps(path.join(process.cwd(), generator.promptArgs.app_name));
-      } else {
-        console.log('Unable to copy graoJS node_modules');
-      }
+  this.runGenerateApp = function( argv, prompt, schema ) {
+
+    // TODO accept --skeleton to override skeleton
+    var skeleton = argv.hasOwnProperty( 'skeleton' )
+                 ? argv.skeleton
+                 : null;
+    generator.init( 'app', skeleton );
+
+    prompt.get( generator.config, function ( err, result ) {
+
+      if ( err ) { return onErr( err ); }
+
+      console.log(result.properties);
+      
+      generator.generate( 
+        result, 
+        self.copyGraoDeps( path.join( process.cwd(), result['app-name'] ) )
+      );
+
     });
   }
 
-  this.runGenerateBundle = function(args) {
-    console.log('-- TODO runGenerateBundle');
+  this.runGenerateBundle = function( argv, prompt, schema ) {
+
+    console.log( '-- TODO runGenerateBundle' );
+
   }
 
-  this.runGenerateSchemaBundle = function(args) {
-    console.log('-- TODO runGenerateSchemaBundle');
+  this.runGenerateSchemaBundle = function( argv, prompt, schema ) {
+
+    console.log( '-- TODO runGenerateSchemaBundle' );
+
   }
 
-  this.runGenerateSchema = function(args) {
-    console.log('-- TODO runGenerateSchema');
+  this.runGenerateSchema = function( argv, prompt, schema ) {
+
+    console.log( '-- TODO runGenerateSchema' );
+
   }
 
-  this.copyGraoDeps = function(appPath) {
-    if (fs.existsSync(appPath)) {
-      fs.mkdirSync(appPath+"/node_modules", 0755);
-      //fs.unlinkSync(dirApp+"/vendor/graojs");
-      //fs.unlinkSync(dirApp+"/node_modules");
-      fs.copy(path.join(__dirname, "/../../src"), path.join(appPath, "/node_modules/graojs"), function() {
-        fs.copy(path.join(__dirname, "/../../node_modules"), path.join(appPath, "/node_modules/graojs/node_modules"), function() {
-          fs.copy(path.join(__dirname, "/../../index.js"), path.join(appPath, "/node_modules/graojs/index.js"));
-          console.log(('+ graoJS core and deps:' + path.join(appPath, "/node_modules/graojs")).green);
-        });
-      });
+  this.copyGraoDeps = function( appPath ) {
+
+    if ( fs.existsSync( appPath ) ) {
+
+      fs.mkdirSync( appPath+"/node_modules", 0755 );
+
+      var srcFrom     = path.join( __dirname, '/../../src' );
+      var srcc
+      var srcTo       = path.join( appPath, '/node_modules/graojs' );
+      var modulesFrom = path.join( __dirname, '/../../node_modules' );
+      var modulesTo   = path.join( appPath, '/node_modules/graojs/node_modules' );
+      var indexFrom   = path.join( __dirname, '/../../index.js' );
+      var indexTo     = path.join( appPath, '/node_modules/graojs/index.js' );
+
+      fs.copy( srcFrom, srcTo, function() {
+
+        console.log( ( '+ graoJS src:' + srcTo ).green );
+        fs.copy( modulesFrom, modulesTo, function() {
+
+          console.log( ( '+ graoJS node_modules:' + modulesTo ).green );
+          fs.copy( indexFrom, indexTo, function() {
+
+            console.log( ( '+ graoJS index:' + indexTo ).green );
+
+          } );
+
+        } );
+
+      } );
+
     };
+
   }
 
 }
 
-function onErr(err) {
-  console.log(err);
+function onErr( err ) {
+  console.log( err );
   return 1;
 }
 
