@@ -22,8 +22,9 @@ var GraoGenerator = function() {
   this.currentDir = process.cwd();
   this.defaultSkels = {
     "app": "skeletons/app",
+    "bundle": "skeletons/bundle",
     "schemabundle": "skeletons/schemabundle",
-    "bundle": "skeletons/bundle"
+    "schema": "skeletons/schema"
   };
   this.args = {};
   this.argsSwig = {};
@@ -50,13 +51,13 @@ var GraoGenerator = function() {
     });
   }
 
-  this.generate = function( args, callback ) {
+  this.generate = function( args, force, callback ) {
 
     console.log( "\n" + ( 'Loading from: ' + this.skelFilename ).green + "\n" );
 
     var tpls = this.prepareTplPaths( this.config, this.skelPath, args );
 
-    self.writeTpls( tpls, args );
+    self.writeTpls( tpls, args, force );
 
     if ( callback && typeof( callback ) === "function" ) {
       callback( this );
@@ -94,7 +95,7 @@ var GraoGenerator = function() {
     return tpls;
   }
 
-  this.writeTpls = function ( tpls, args ) {
+  this.writeTpls = function ( tpls, args, force ) {
 
     var skelPath = this.skelPath;
 
@@ -108,7 +109,7 @@ var GraoGenerator = function() {
 
         fs.exists( './' + dist, function ( exists ) {
 
-          if ( ! exists || args.hasOwnProperty( 'force' )) {
+          if ( ! exists || force ) {
             fs.writeFileSync( dist, self.swigRender( fs.readFileSync( tpl , 'utf-8' ), args ) );
             console.log( ( '+ ' + './' + dist ).green );
           } else {

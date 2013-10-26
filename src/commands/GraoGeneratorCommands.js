@@ -43,24 +43,22 @@ var GraoGeneratorCommands = function() {
 
   this.runGenerateApp = function( argv, prompt, schema ) {
 
-    // TODO accept --skeleton to override skeleton
-    var skeleton = argv.hasOwnProperty( 'skeleton' )
-                 ? argv.skeleton
-                 : null;
-    generator.init( 'app', skeleton );
+    this.prepareGenerator( 'schema', argv );
 
-    prompt.get( generator.config, function ( err, result ) {
+    prompt.get( generator.config, force,  function ( err, result ) {
 
       if ( err ) { return onErr( err ); }
 
-      console.log(result.properties);
-      
-      generator.generate( 
-        result, 
+      var force = argv.hasOwnProperty( 'force' );
+
+      generator.generate(
+        result,
+        force,
         self.copyGraoDeps( path.join( process.cwd(), result['app-name'] ) )
       );
 
     });
+
   }
 
   this.runGenerateBundle = function( argv, prompt, schema ) {
@@ -77,7 +75,34 @@ var GraoGeneratorCommands = function() {
 
   this.runGenerateSchema = function( argv, prompt, schema ) {
 
-    console.log( '-- TODO runGenerateSchema' );
+    this.prepareGenerator( 'schema', argv );
+
+    prompt.get( generator.config, function ( err, result ) {
+
+      if ( err ) { return onErr( err ); }
+
+      var force = argv.hasOwnProperty( 'force' );
+
+      generator.generate(result, force, function() {
+        console.log(
+          "Edit the schema and add your fields" +
+          "\nthen run " + "grao generate:schemabundle".blue +
+          " to generate a CRUD bundle for your schema \n"
+        )
+      });
+
+    });
+
+  }
+
+  this.prepareGenerator = function ( type, argv ) {
+
+    // TODO accept --skeleton to override skeleton
+    var skeleton = argv.hasOwnProperty( 'skeleton' )
+      ? argv.skeleton
+      : null;
+
+    generator.init( type, skeleton );
 
   }
 

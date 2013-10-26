@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "title": "Generating Schema"
+  },
+  "properties": {
+    "name": {
+      "description": "Model Name (lowercase letters)",
+      "pattern": "^[a-z]+$",
+      "message": "Must be only lowercase letters - no uppercase letters, spaces, numbers, special chars",
+      "required": true
+    }
+  },
+  "target": "./",
+  "ignores": [
+    "skeleton.json"
+  ],
+  "rewrites": {
+    "Schema.js": "bundles/{{name}}/schemas/{{name | capitalize}}Schema.js"
+  },
+  "conditions": []
+}
+
