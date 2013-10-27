@@ -1,15 +1,16 @@
-var args = process.argv.slice(2);
-var fs = require('fs');
-var prompt = require('prompt');
-var swig = require('swig');
-var fs = require('fs');
-var path = require('path');
-var wrench = require('wrench');
+var
+  path = require( 'path' ) ,
+  fs = require( 'fs-extra' ),
+  swig = require( 'swig' ),
+  path = require( 'path' ),
+  wrench = require( 'wrench'),
+  __ = require ( 'underscore'),
+  prompt = require( 'prompt' );
 
 //"pattern": "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}",
 //"message": "Invalid email",
 
-var GraoGenerator = function(){
+var GraoGenerator = function() {
 
   var self = this;
 
@@ -21,101 +22,199 @@ var GraoGenerator = function(){
   this.currentDir = process.cwd();
   this.defaultSkels = {
     "app": "skeletons/app",
+    "bundle": "skeletons/bundle",
     "schemabundle": "skeletons/schemabundle",
-    "bundle": "skeletons/bundle"
+    "schema": "skeletons/schema"
   };
-  this.promptArgs = {};
+  this.args = {};
+  this.argsSwig = {};
 
-  this.setSkeleton = function (type, skeleton) {
-    this.skelPath = skeleton ? skeleton : path.join(__dirname, '/../../', this.defaultSkels[type]);
-  }
+  this.init = function( type, skeleton ) {
+    this.skelPath = skeleton === null
+                  ? path.join( __dirname, '/../../', this.defaultSkels[type] )
+                  : skeleton;
 
-  this.generate = function(callback) {
+    this.skelFilename = path.join( this.skelPath, this.skelDefaultFilename );
+    this.config = JSON.parse(
+      fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,'')
+    );
 
-    this.skelFilename = path.join(this.skelPath, this.skelDefaultFilename);
-
-    this.config = JSON.parse(fs.readFileSync(this.skelFilename, 'utf8').toString().replace(/\n/g,''));
-
-    this.defaults = fs.existsSync(path.join(process.cwd(), '/config/default.skeleton.json'))
-      ? JSON.parse( fs.readFileSync(path.join(process.cwd(), '/config/default.skeleton.json')))
+    var defaultData = path.join( process.cwd(), '/config/default.skeleton.json' );
+    this.defaults = fs.existsSync( defaultData )
+      ? JSON.parse( fs.readFileSync( defaultData ) )
       : {};
 
-    Object.keys(this.defaults).forEach(function(key){
-      if(self.config.properties[key]) {
+    Object.keys( this.defaults ).forEach( function( key ) {
+      if( self.config.properties[key] ) {
         self.config.properties[key]['default'] = defaults[key];
       }
     });
+  }
 
-    console.log("\n" + ('Loading from: ' + this.skelFilename).green + "\n");
+  this.generate = function( args, force, callback ) {
 
-    prompt.message = "";
-    prompt.delimiter = ":".green;
+    console.log( "\n" + ( 'Loading from: ' + this.skelFilename ).green + "\n" );
 
-    prompt.get(self.config, function (err, result ) {
+    var tpls = this.prepareTplPaths( this.config, this.skelPath, args );
 
-      this.promptArgs = result;
-      if (err) { return onErr(err); }
+    self.writeTpls( tpls, args, force );
 
-      var tpls = self.config.tpls || {};
-      var tpls_conditional = self.config.tpls_conditional || {};
-
-      for (var i in tpls_conditional) {
-        if (eval(tpls_conditional[i].condition)) {
-          for (var tpl_id in tpls_conditional[i].tpls) {
-            tpls[tpl_id] = tpls_conditional[i].tpls[tpl_id];
-          }
-        }
-      };
-
-      self.writeTpls(tpls, result);
-
-      if (callback && typeof(callback) === "function") {
-        callback(this);
-      }
-    });
+    if ( callback && typeof( callback ) === "function" ) {
+      callback( this );
+    }
 
   };
 
-  this.writeTpls = function (tpls, result) {
+  this.prepareTplPaths = function( config, sourcePath, args ) {
+
+    var sourceFiles = wrench.readdirSyncRecursive( sourcePath );
+    var tpls = {};
+
+    for (var i in sourceFiles) {
+
+      if( fs.statSync( path.join( sourcePath, sourceFiles[i] ) ).isFile() ) {
+
+        if (
+          ! this.checkIgnore( config.ignores, sourceFiles[i] )
+          && this.checkConditions( config.conditions, sourceFiles[i], args )
+          ) {
+
+          var file = this.rewrite( config.rewrites, sourceFiles[i]);
+
+          tpls[ path.join( sourcePath, sourceFiles[i] ) ] = this.swigRender(
+            path.join( config.target, file ),
+            args
+          );
+
+        }
+
+      }
+
+    }
+
+    return tpls;
+  }
+
+  this.writeTpls = function ( tpls, args, force ) {
 
     var skelPath = this.skelPath;
 
-    Object.keys(tpls).forEach(function( tpl ) {
-      var swig_result = { locals: result };
-      var dist = swig.render( tpls[tpl], swig_result );
-      var distDir = path.dirname(dist);
+    Object.keys( tpls ).forEach( function( tpl ) {
 
-      if( fs.statSync(path.join(skelPath, tpl)).isFile() ){
+      var dist = tpls[tpl];
+      var distDir = path.dirname( dist );
+
+      if( fs.statSync( tpl ).isFile() ) {
         wrench.mkdirSyncRecursive( distDir );
 
-        fs.exists('./' + dist, function (exists) {
-          if (exists) {
-            console.log(('! ' + './' + dist).red);
+        fs.exists( './' + dist, function ( exists ) {
+
+          if ( ! exists || force ) {
+            fs.writeFileSync( dist, self.swigRender( fs.readFileSync( tpl , 'utf-8' ), args ) );
+            console.log( ( '+ ' + './' + dist ).green );
           } else {
-            fs.writeFileSync(dist, swig.render(fs.readFileSync(path.join(skelPath, tpl), 'utf-8'), swig_result));
-            console.log(('+ ' + './' + dist).green);
+            console.log( ( '! ' + './' + dist ).red );
           }
+
         });
 
       } else {
-        this.writeDir(distDir, tpl, dist);
+        this.writeDir( distDir, tpl, dist );
       }
     });
   };
 
-  this.writeDir = function (distDir, tpl, dist) {
+  this.writeDir = function ( distDir, tpl, dist ) {
+
     wrench.mkdirSyncRecursive( distDir );
     wrench.copyDirSyncRecursive( tpl, dist );
-    wrench.readdirSyncRecursive(dist).forEach(function(file) {
-      file = path.join( dist, file);
-      fs.writeFileSync( file, swig.render( fs.readFileSync( file, 'utf-8'), swig_result), 'utf-8');
+    wrench.readdirSyncRecursive( dist ).forEach( function( file ) {
+
+      file = path.join( dist, file );
+      fs.writeFileSync( file, swig.render( fs.readFileSync( file, 'utf-8' ), swig_result ), 'utf-8' );
+
     });
   };
 
+  this.swigRender = function(content, args) {
+
+    Object.keys( args ).forEach( function( arg ) {
+      self.argsSwig[ arg.replace('-', '_') ] = args[arg];
+    });
+
+    var locals = { locals:this.argsSwig };
+
+    return swig.render( content, locals );
+  }
+
+  this.checkIgnore = function( ignores, file ) {
+
+    for (var i in ignores) {
+
+      var pattern = "^" + ignores[i].replace(/\//g,"\\/").replace(/\./g,"\\.") + ".*";
+      var regex = RegExp( pattern );
+
+      if ( file.match( regex ) ) {
+        return true;
+      }
+
+    }
+
+    return false;
+
+  }
+
+  this.rewrite = function( rewrites, file ) {
+
+    if ( rewrites.hasOwnProperty( file )) {
+      return rewrites[ file ];
+    } else {
+      return file;
+    }
+
+  }
+
+  this.checkConditions = function( conditions, file, args ) {
+
+    for (var i in conditions) {
+
+      var condition = conditions[i];
+
+      for ( var j in condition.matches) {
+
+        var pattern = "^" + condition.matches[j].replace(/\//g,"\\/").replace(/\./g,"\\.") + ".*";
+        var regex = RegExp( pattern );
+        if ( file.match( regex ) ) {
+
+          var rule = true;
+
+          for ( var j in condition.rules) {
+
+            var rl = condition.rules[j];
+            if ( rl.value !== args[ rl.arg ]) {
+              rule = false;
+              break;
+            }
+
+          }
+
+          return rule;
+
+        }
+
+      }
+
+    }
+
+    return true;
+
+  }
+
+
 }
 
-function onErr(err) {
-  console.log(err);
+function onErr( err ) {
+  console.log( err );
   return 1;
 }
 
