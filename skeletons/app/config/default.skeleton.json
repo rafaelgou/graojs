@@ -1,0 +1,10 @@
+{
+    "app_name": "{{ app_name }}",
+    "app_description": "{{ app_description }}",
+    "author_name": "{{ author_name }}",
+    "author_email": "{{ author_email }}",
+    "template_engine": "{{ template_engine }}",
+    "server_ports": "{{ server_ports }}",
+    "mongodb_host": "{{ mongodb_host }}",
+    "mongodb_db": "{{ mongodb_db }}"
+}

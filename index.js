@@ -47,11 +47,17 @@ var graoJS = function() {
 	this.start = function() {
 		kernel.logger.info('graoJS Starting...');
 		kernel.logger.info('Open in your browser:');
-		for(portIndex in kernel.config.ports)
-		{
-			servers.push(graoExpress.listen(kernel.config.ports[portIndex]));
-			kernel.logger.info('http://localhost:'+kernel.config.ports[portIndex]);
-		}
+
+    if (process.env.PORT != undefined) {
+      servers.push(graoExpress.listen(process.env.PORT));
+      kernel.logger.info('http://localhost:' + process.env.PORT);
+    } else {
+      for(portIndex in kernel.config.ports)
+      {
+        servers.push(graoExpress.listen(kernel.config.ports[portIndex]));
+        kernel.logger.info('http://localhost:' + kernel.config.ports[portIndex]);
+      }
+    }
 	};
 	
 	this.stop = function() {

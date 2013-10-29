@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "title": "Generating graoJS Model Bundle"
+  },
+  "properties": {
+    "name": {
+      "description": "Model Name (lowercase letters)",
+      "pattern": "^[a-z]+$",
+      "message": "Must be only lowercase letters - no uppercase letters, spaces, numbers, special chars",
+      "required": true
+    }
+  },
+  "tpls": {
+    "public/js/PublicController.js": "bundles/{{name}}/public/js/{{name | capitalize}}PublicController.js",
+    "schemas/Schema.js": "bundles/{{name}}/schemas/{{name | capitalize}}Schema.js",
+    "Controller.js": "bundles/{{name}}/{{name | capitalize}}Controller.js",
+    "Model.js": "bundles/{{name}}/{{name | capitalize}}Model.js",
+    "Route.js": "bundles/{{name}}/{{name | capitalize}}Route.js",
+    "Schema.js": "bundles/{{name}}/{{name | capitalize}}Schema.js",
+    "Validator.js": "bundles/{{name}}/{{name | capitalize}}Validator.js"
+  },
+  "tpls_conditional": [
+    {
+      "condition": "result.template_engine == 'swig'",
+      "tpls": {
+      }
+    },
+    {
+      "condition": "result.template_engine == 'jade'",
+      "tpls": {
+        "theme-jade/dashboard.jade": "bundles/{{name | lower}}/view/dashboard.jade",
+        "theme-jade/form.jade": "bundles/{{name | lower}}/view/form.jade",
+        "theme-jade/grid.jade": "bundles/{{name | lower}}/view/grid.jade",
+      }
+    }
+  ]
+}
