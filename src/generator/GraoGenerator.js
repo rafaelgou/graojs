@@ -12,6 +12,10 @@ var GraoGenerator = function(config) {
 		this.schema = require(this.config.files.schema);
 	};
 
+	/**
+	 * Criar regex para separar por {GRAO} e tratar de forma singular e não linha a linha
+	 */
+	
 	this.replace = function(buffer) {
 		// We need indentation this Oo
 		var allPlaceHolders = /{GRAO}{TD_SCHEMA}|{GRAO}{TH_SCHEMA_LABELS}|{GRAO}{FORM_FIELDS}|{GRAO}{SCHEMA_ID}|{GRAO}{SCHEMA_FIRST_STRING}|{GRAO}{LOWER}{NAME}|{GRAO}{UCFIRST}{NAME}|{GRAO}{LOWER}{PLURAL}{NAME}|{GRAO}{UCFIRST}{PLURAL}{NAME}/gi;
