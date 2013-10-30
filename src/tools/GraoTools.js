@@ -3,24 +3,24 @@ var path = require('path'),
     prompt = require('prompt'),
     argv = require('optimist').argv;
 
-var GraoTools = function () {
-
+var GraoTools = function (di) {
     var self = this;
-
+    this.commands = di.commands;
     this.currentDir = process.cwd();
     this.cmdId = ( argv._.length > 0 )
         ? argv._[0]
         : null;
-    this.commands = {};
+
     this.actions = {};
+    this.commandsMap = {};
 
     this.usage = function (msg) {
 
         console.log(( "\n" + fs.readFileSync(path.join(__dirname, '/../..', 'graojs.ascii'), { encoding: 'utf8' }) ).yellow);
         console.log("\n" + "Usage: grao [OPTION...] [NAME]".yellow + "\n" + Array(70).join('=').yellow);
 
-        Object.keys(this.commands).forEach(function (commandId) {
-            var command = self.commands[commandId];
+        Object.keys(this.commandsMap).forEach(function (commandId) {
+            var command = self.commandsMap[commandId];
             console.log("\n" + command.title + "\n" + Array(70).join('-'));
             for (var i in command.actions) {
                 console.log(self.getActionDesc(command.id + ':' + command.actions[i].id));
@@ -35,18 +35,19 @@ var GraoTools = function () {
     };
 
     this.init = function () {
+        self.mapCommands(this.commands);
+        self.mapCommands(this.commands.server);
+        self.mapCommands(this.commands.generator);
 
         if (this.cmdId === null) {
             this.usage();
         } else {
             this.run(this.cmdId, argv);
         }
-
     }
 
-    this.addCommands = function (commands) {
-
-        this.commands[commands.id] = commands;
+    this.mapCommands = function (commands) {
+        this.commandsMap[commands.id] = commands;
 
         for (var i in commands.actions) {
 
@@ -55,8 +56,7 @@ var GraoTools = function () {
             this.actions[actionId] = action;
             this.actions[actionId].class = commands.id;
 
-        }
-        ;
+        };
 
     }
 
@@ -78,7 +78,7 @@ var GraoTools = function () {
             this.checkAppOnly(actionId);
 
             var action = this.actions[actionId];
-            var command = this.commands[action.class];
+            var command = this.commandsMap[action.class];
 
             console.log("\n" + action.desc.yellow);
             console.log(Array(70).join('-').yellow);
@@ -121,7 +121,9 @@ var GraoTools = function () {
                 }
 
             } else {
-
+                /**
+                 * @FIXME
+                 */
 
             }
 
