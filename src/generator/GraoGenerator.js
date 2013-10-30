@@ -2,9 +2,19 @@ var path = require( 'path' ) ,
   fs = require( 'fs-extra' ),
   swig = require( 'swig' ),
   path = require( 'path' ),
-  wrench = require( 'wrench'),
-  __ = require ( 'underscore'),
   prompt = require( 'prompt' );
+
+var walk = function(dir) {
+  var results = []
+  var list = fs.readdirSync(dir)
+  list.forEach(function(file) {
+    file = dir + '/' + file
+    var stat = fs.statSync(file)
+    if (stat && stat.isDirectory()) results = results.concat(walk(file))
+    else results.push(file)
+  })
+  return results;
+}
 
 //"pattern": "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}",
 //"message": "Invalid email",
@@ -56,22 +66,18 @@ var GraoGenerator = function() {
 
     var tpls = this.prepareTplPaths( this.config, this.skelPath, args );
 
-    self.writeTpls( tpls, args, force );
-
-    if ( callback && typeof( callback ) === "function" ) {
-      callback( this );
-    }
+    self.writeTpls( tpls, args, force, callback );
 
   };
 
   this.prepareTplPaths = function( config, sourcePath, args ) {
 
-    var sourceFiles = wrench.readdirSyncRecursive( sourcePath );
+    var sourceFiles = walk( sourcePath );
     var tpls = {};
 
     for (var i in sourceFiles) {
 
-      if( fs.statSync( path.join( sourcePath, sourceFiles[i] ) ).isFile() ) {
+      if( fs.statSync( sourceFiles[i] ).isFile() ) {
 
         if (
           ! this.checkIgnore( config.ignores, sourceFiles[i] )
@@ -80,8 +86,8 @@ var GraoGenerator = function() {
 
           var file = this.rewrite( config.rewrites, sourceFiles[i]);
 
-          tpls[ path.join( sourcePath, sourceFiles[i] ) ] = this.swigRender(
-            path.join( config.target, file ),
+          tpls[ sourceFiles[i] ] = this.swigRender(
+            path.join( config.target, file.replace(sourcePath, '/') ),
             args
           );
 
@@ -94,7 +100,7 @@ var GraoGenerator = function() {
     return tpls;
   }
 
-  this.writeTpls = function ( tpls, args, force ) {
+  this.writeTpls = function ( tpls, args, force, callback ) {
 
     var skelPath = this.skelPath;
 
@@ -104,9 +110,9 @@ var GraoGenerator = function() {
       var distDir = path.dirname( dist );
 
       if( fs.statSync( tpl ).isFile() ) {
-        wrench.mkdirSyncRecursive( distDir );
 
-        fs.exists( './' + dist, function ( exists ) {
+        fs.mkdirsSync( distDir );
+        fs.exists( process.cwd() + '/' + dist, function ( exists ) {
 
           if ( ! exists || force ) {
             fs.writeFileSync( dist, self.swigRender( fs.readFileSync( tpl , 'utf-8' ), args ) );
@@ -121,13 +127,19 @@ var GraoGenerator = function() {
         this.writeDir( distDir, tpl, dist );
       }
     });
+
+    if ( callback && typeof( callback ) === "function" ) {
+      callback( path.join( process.cwd(), args['app-name'] ), force );
+    }
+
   };
 
   this.writeDir = function ( distDir, tpl, dist ) {
 
-    wrench.mkdirSyncRecursive( distDir );
-    wrench.copyDirSyncRecursive( tpl, dist );
-    wrench.readdirSyncRecursive( dist ).forEach( function( file ) {
+    fs.mkdirsSync( distDir );
+    fs.copySync( tpl, dist );
+
+    walk(dist).forEach( function( file ) {
 
       file = path.join( dist, file );
       fs.writeFileSync( file, swig.render( fs.readFileSync( file, 'utf-8' ), swig_result ), 'utf-8' );
@@ -202,6 +214,8 @@ var GraoGenerator = function() {
     }
     return true;
   }
+
+
 }
 
 function onErr( err ) {
