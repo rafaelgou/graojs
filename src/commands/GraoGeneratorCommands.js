@@ -4,6 +4,18 @@ var
   prompt = require( 'prompt' ),
   generator = require( '../generator' );
 
+var walk = function(dir) {
+  var results = []
+  var list = fs.readdirSync(dir)
+  list.forEach(function(file) {
+    file = dir + '/' + file
+    var stat = fs.statSync(file)
+    if (stat && stat.isDirectory()) results = results.concat(walk(file))
+    else results.push(file)
+  })
+  return results;
+}
+
 var GraoGeneratorCommands = function() {
 
   var self = this;
@@ -43,18 +55,20 @@ var GraoGeneratorCommands = function() {
 
   this.runGenerateApp = function( argv, prompt, schema ) {
 
-    this.prepareGenerator( 'schema', argv );
+    this.prepareGenerator( 'app', argv );
 
-    prompt.get( generator.config, force,  function ( err, result ) {
+    prompt.get( generator.config, function ( err, result ) {
 
       if ( err ) { return onErr( err ); }
 
-      var force = argv.hasOwnProperty( 'force' );
+      var force = argv.hasOwnProperty( 'force' )
+                ? argv.force
+                : false;
 
       generator.generate(
         result,
         force,
-        self.copyGraoDeps( path.join( process.cwd(), result['app-name'] ) )
+        self.copyGraoDeps
       );
 
     });
@@ -81,7 +95,9 @@ var GraoGeneratorCommands = function() {
 
       if ( err ) { return onErr( err ); }
 
-      var force = argv.hasOwnProperty( 'force' );
+      var force = argv.hasOwnProperty( 'force' )
+        ? argv.force
+        : false;
 
       generator.generate(result, force, function() {
         console.log(
@@ -106,35 +122,64 @@ var GraoGeneratorCommands = function() {
 
   }
 
-  this.copyGraoDeps = function( appPath ) {
+  this.copyGraoDeps = function( appPath, force ) {
 
     if ( fs.existsSync( appPath ) ) {
 
-      fs.mkdirSync( appPath+"/node_modules", 0755 );
+      console.log('EXISTS ' + appPath);
 
-      var srcFrom     = path.join( __dirname, '/../../src' );
-      var srcc
-      var srcTo       = path.join( appPath, '/node_modules/graojs' );
-      var modulesFrom = path.join( __dirname, '/../../node_modules' );
-      var modulesTo   = path.join( appPath, '/node_modules/graojs/node_modules' );
-      var indexFrom   = path.join( __dirname, '/../../index.js' );
-      var indexTo     = path.join( appPath, '/node_modules/graojs/index.js' );
+/*
+      var nodeModulesTo = path.join(appPath, '/node_modules');
+      if (!fs.existsSync(nodeModulesTo)) {
+        fs.mkdirsSync(nodeModulesTo));
+        console.log('CREATED ' + nodeModulesTo);
+      } else {
+        console.log('NOT CREATED ' + nodeModulesTo);
+      }
+*/
 
-      fs.copy( srcFrom, srcTo, function() {
+      var targets = {
+        'src': {
+          'from': path.join(__dirname, '/../../src'),
+          'to': path.join(appPath, '/node_modules/graojs')
+        },
+        'modules': {
+          'from': path.join(__dirname, '/../../node_modules'),
+          'to': path.join(appPath, '/node_modules/graojs/node_modules')
+        },
+        'index': {
+          'from': path.join(__dirname, '/../../index.js'),
+          'to': path.join(appPath, '/node_modules/graojs/index.js')
+        }
+      }
 
-        console.log( ( '+ graoJS src:' + srcTo ).green );
-        fs.copy( modulesFrom, modulesTo, function() {
+      Object.keys( targets ).forEach( function( tid ) {
+        var target = targets[tid];
 
-          console.log( ( '+ graoJS node_modules:' + modulesTo ).green );
-          fs.copy( indexFrom, indexTo, function() {
+        if (fs.statSync( target.from ).isDirectory()) {
+          var from = walk(target.from);
+        } else {
+          var from = [target.from];
+        }
 
-            console.log( ( '+ graoJS index:' + indexTo ).green );
+        fs.exists( target.to, function ( exists )  {
+          if (!exists || force) {
+            for (var i in from) {
 
-          } );
+              var to = path.join(target.to, from[i].replace(target.from, ''));
 
-        } );
+              fs.copy(from[i] , to);
+            }
+            console.log( ( '+ graoJS ' + target.to ).green );
+          } else {
+            console.log( ( '! graoJS ' + target.to ).red );
+          }
+        });
+      });
 
-      } );
+    } else {
+
+      console.log('DOES NOT EXISTS ' + appPath);
 
     };
 

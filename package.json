@@ -31,7 +31,6 @@
     "fs-extra",
     "stack-trace",
     "prompt",
-    "wrench",
     "optimist"
   ],
   "keywords": [
