@@ -45,18 +45,12 @@ var GraoGeneratorCommands = function() {
 
     this.prepareGenerator( 'schema', argv );
 
+    var force = argv.hasOwnProperty( 'force' );
+
     prompt.get( generator.config, force,  function ( err, result ) {
+        if ( err ) { throw err }
 
-      if ( err ) { return onErr( err ); }
-
-      var force = argv.hasOwnProperty( 'force' );
-
-      generator.generate(
-        result,
-        force,
-        self.copyGraoDeps( path.join( process.cwd(), result['app-name'] ) )
-      );
-
+        generator.generate(result, force, self.copyGraoDeps( path.join( process.cwd(), result['app-name'])));
     });
 
   }
@@ -103,7 +97,6 @@ var GraoGeneratorCommands = function() {
       : null;
 
     generator.init( type, skeleton );
-
   }
 
   this.copyGraoDeps = function( appPath ) {
