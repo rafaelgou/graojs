@@ -6,6 +6,8 @@ var path = require('path'),
 var GraoTools = function (di) {
     var self = this;
     this.commands = di.commands;
+    this.server = di.server;
+    this.generator = di.generator;
     this.currentDir = process.cwd();
     this.cmdId = ( argv._.length > 0 )
         ? argv._[0]
@@ -36,8 +38,8 @@ var GraoTools = function (di) {
 
     this.init = function () {
         self.mapCommands(this.commands);
-        self.mapCommands(this.commands.server);
-        self.mapCommands(this.commands.generator);
+        self.mapCommands(this.server);
+        self.mapCommands(this.generator);
 
         if (this.cmdId === null) {
             this.usage();

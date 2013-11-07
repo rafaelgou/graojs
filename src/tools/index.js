@@ -23,10 +23,9 @@ try {
     }).present().log('info');
 */
     var tools = new GraoTools({
-        commands: new (require('../commands/GraoCommands'))({
-            server: new (require('../commands/GraoServerCommands')),
-            generator: new (require('../commands/GraoGeneratorCommands'))
-        })
+        commands: new (require('../commands/GraoCommands'))(),
+        server: new (require('../commands/GraoServerCommands'))(),
+        generator: new (require('../commands/GraoGeneratorCommands'))()
     });
     tools.init();
 } catch (exception) {

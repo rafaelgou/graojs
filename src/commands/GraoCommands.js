@@ -4,9 +4,6 @@ var
 
 var GraoCommands = function (di) {
 
-    this.server = (di.server != null) ? di.server : null;
-    this.generator = (di.generator != null) ? di.generator : null;
-
     this.id = 'main';
     this.title = 'Main graoJS commands';
     this.actions = [
