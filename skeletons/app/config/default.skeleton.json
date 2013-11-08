@@ -1,6 +1,6 @@
 {
-    "app_name": "{{ app_name }}",
-    "app_description": "{{ app_description }}",
+    "name": "{{ name }}",
+    "description": "{{ description }}",
     "author_name": "{{ author_name }}",
     "author_email": "{{ author_email }}",
     "template_engine": "{{ template_engine }}",
