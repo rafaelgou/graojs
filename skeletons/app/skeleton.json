@@ -3,13 +3,13 @@
     "title": "Generating graoJS Application"
   },
   "properties": {
-    "app-name": {
+    "name": {
       "description": "Application Name (lowercase letters)",
       "pattern": "^[a-z]+$",
       "message": "Must be only lowercase letters - no uppercase letters, spaces, numbers, special chars",
       "required": true
     },
-    "app-description": {
+    "description": {
       "description": "Application Description",
       "required": true
     },
@@ -53,7 +53,7 @@
       "default": "grao"
     }
   },
-  "target": "{{ app_name }}/",
+  "target": "{{ name }}/",
   "ignores": [
     "skeleton.json"
   ],
