@@ -19,7 +19,7 @@ form.form-horizontal(role='form', ng-submit='createOrUpdate()')
     {%- elseif field.type == 'select' %}
         {{ select(schema, fieldName, field) }}
     {%- else %}
-        {{ input(field.type, schema, fieldName, field) }}
+        {{ select(schema, fieldName, field) }}
     {%- endif %}
 {%- endmacro %}
 {%- macro input(type, schema, fieldName, field) %}
@@ -47,12 +47,13 @@ form.form-horizontal(role='form', ng-submit='createOrUpdate()')
 {%- macro input_radio(schema, fieldName, field) %}
     .form-group
 {%- for option in field.options %}
-        input.form-control(type='{{ type }}', ng-model='{{ schema }}.{{ fieldName }}' value="{{ option.name }}"{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %}) {{ option.value }}
-{%- endfor %}
+        input.form-control(type='{{ type }}', ng-model='{{ schema }}.{{ fieldName }}' value="{{ loop.key }}"{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %}) {{ option }}{%- endfor %}
 {%- endmacro %}
 {%- macro select(schema, fieldName, field) %}
     .form-group
         select.form-control(ng-model='{{ schema }}.{{ fieldName }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %})
+{%- for option in field.options %}
+        option.form-control(value="{{ loop.key }}") {{ option }}{%- endfor %}
 {%- endmacro %}
 {%- macro textarea(schema, fieldName, field) %}
    .form-group
