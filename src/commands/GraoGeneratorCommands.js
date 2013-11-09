@@ -1,8 +1,10 @@
 var
-    path = require('path') ,
-    fs = require('fs-extra'),
-    prompt = require('prompt'),
-    generator = require('../generator');
+  path = require('path') ,
+  fs = require('fs-extra'),
+  prompt = require('prompt'),
+  generator = require('../generator'),
+  mongoose = require('mongoose'),
+  validate = require('mongoose-validator').validate;
 
 var walk = function (dir) {
 
@@ -45,7 +47,7 @@ var GraoGeneratorCommands = function (di) {
     {
       id: 'schemabundle',
       method: 'runGenerateSchemaBundle',
-      desc: 'Generate a new graoJS Bundle with a Schema',
+      desc: 'Generate a new graoJS Bundle based on a Schema',
       appOnly: true,
       promptSchema: {}
     },
@@ -85,7 +87,41 @@ var GraoGeneratorCommands = function (di) {
 
   this.runGenerateSchemaBundle = function (argv, prompt, schema) {
 
-    console.log('-- TODO runGenerateSchemaBundle');
+    this.prepareGenerator('schemabundle', argv);
+
+    prompt.get(generator.config, function (err, result) {
+
+      if (err) {
+        return onErr(err);
+      }
+
+      var force = argv.hasOwnProperty('force')
+        ? argv.force
+        : false;
+
+      var schemaCapitalized = result['schema'].charAt(0).toUpperCase() + result['schema'].substring(1).toLowerCase();
+
+      var schemaPath = 'bundles/' + result['schema'] + '/' + schemaCapitalized + 'Schema.js';
+
+      fs.exists(path.join(process.cwd(), schemaPath), function (exists) {
+
+        if (exists) {
+
+        var schemaFields = self.prepareSchemaFields(result['schema'], path.join(process.cwd(), schemaPath));
+
+        result['fields'] = schemaFields;
+        result['jadeMacrosPath'] = path.join(generator.skelPath, "/view/jade/field_macros.jade");
+
+        generator.generate(result, force);
+
+        } else {
+          console.log(( 'ERROR: ' + schemaPath + ' doesn\'t exist. Aborting').red);
+          return false;
+        }
+
+      });
+
+    });
 
   }
 
@@ -123,6 +159,33 @@ var GraoGeneratorCommands = function (di) {
         : null;
 
     generator.init(type, skeleton);
+
+  }
+
+  this.prepareSchemaFields = function (schema, schemaPath) {
+
+    var validators = {};
+    validators[schema] = true;
+
+    var diSchema = {
+      mongoose: mongoose,
+      validate: validate,
+      validators: validators
+    }
+
+    var modelSchema = new (require(schemaPath))(diSchema);
+
+    var fields = {};
+
+    Object.keys(modelSchema.json).forEach(function (fieldName) {
+
+      if (modelSchema.json[fieldName].graoui != undefined) {
+        fields[fieldName] = modelSchema.json[fieldName].graoui;
+      }
+
+    });
+
+    return fields;
 
   }
 
