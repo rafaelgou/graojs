@@ -1,7 +1,7 @@
-extends ../../core/view/layout
+extends ../../frontend/theme/layout
 block content
 	.row(ng-controller='{{ schema | capitalize }}PublicController')
-		h2 Dashboard {{ schema | capitalize }}s (falta plural)
+		h2 Dashboard {{ schema | capitalize }}s
 		.col-md-4
 			include form
 		.col-md-8
