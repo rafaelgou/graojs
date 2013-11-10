@@ -1,3 +1,9 @@
+/**
+ * {{ schema | capitalize }}Schema
+ *
+ * Application {{ description }}
+ */
+
 var {{ schema | capitalize }}Schema = function(di) {
   validate = di.validate;
   validator = di.validators.{{ schema | lower }};
@@ -7,7 +13,8 @@ var {{ schema | capitalize }}Schema = function(di) {
 
 // SAMPLE FIELD
 // ------------
-//    , yourFieldName : {
+//    ,
+//    yourFieldName : {
 //      type : String,
 //      lowercase : true,
 //      required : true,
@@ -17,12 +24,12 @@ var {{ schema | capitalize }}Schema = function(di) {
 //      validate : validator.validatorName,
 //      graoui: {
 //        label: 'Field Label',
-//        widget: 'input', // input, select, textarea
-//        inputtype: '', // For input: text, checkbox, radio, file, hidden, email, date, url
-//        options: { } // Any extra options - for SELECT/INPUT RADIO the option 'choices' are required
+//        type: '', // INPUTS: text, checkbox, radio, file, hidden, email, date, url | select, textarea
+//        options: { } // For SELECT/INPUT RADIO the option 'choices' are required
 //        attr: { } // Any extra html attributes, such 'class', 'style', 'placeholder', 'data-*', 'ng-*'
 //      }
 //    }
+
   };
 
   this.mongoose = new di.mongoose.Schema(this.json);

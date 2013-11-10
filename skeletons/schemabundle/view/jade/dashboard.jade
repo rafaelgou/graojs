@@ -1,0 +1,8 @@
+extends ../../core/view/layout
+block content
+	.row(ng-controller='{{ schema | capitalize }}PublicController')
+		h2 Dashboard {{ schema | capitalize }}s (falta plural)
+		.col-md-4
+			include form
+		.col-md-8
+			include grid
