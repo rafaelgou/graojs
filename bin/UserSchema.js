@@ -4,7 +4,6 @@ var UserSchema = function(di) {
 
     this.json = {
         id : di.mongoose.Schema.ObjectId,
-
         username : {
             type : String,
             required : false,
@@ -55,65 +54,6 @@ var UserSchema = function(di) {
                 type: 'url'
             }
         },
-        born : {
-            type: Number,
-            graoui: {
-                label: "Born",
-                type: 'date'
-            }
-        },
-        kids : {
-            type: Number,
-            graoui: {
-                label: "Kids",
-                type: 'number'
-            }
-        },
-        sex : {
-            type: String,
-            graoui: {
-                label: "Sex",
-                type: 'radio',
-                options: { "M": "Masculine", "F": "Feminine" }
-            }
-        },
-        languages : {
-            type: Array,
-            graoui: {
-                label: "Languages",
-                type: 'checkbox',
-                options: [ "PHP", "JAVA", "JAVASCRIPT", "PYTHON", "RUBY" ],
-                attr: { multiple: true }
-            }
-        },
-        distros : {
-            type: Array,
-            graoui: {
-                label: "Distributions",
-                type: 'select', // https://github.com/localytics/angular-chosen ? https://github.com/angular-ui/ui-select2 ?
-                options: [ "Ubuntu", "Fedora", "Debian", "Mint", "Slackware", "Gentoo" ],
-                attr: { multiple: true }
-            }
-        },
-        address : {
-            type: String,
-            graoui: {
-                label: "Address",
-                type: 'textarea',
-                attr: { placeholder: "Your Address" }
-            }
-        },
-        money : {
-            type: Number,
-            graoui: {
-                label: "Money",
-                type: 'currency'
-            }
-        },
-        likes: [{ type: di.mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        dislikes: [{ type: di.mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        followers: [{ type: di.mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        following: [{ type: di.mongoose.Schema.Types.ObjectId, ref: 'User' }]
     };
 
     this.mongoose = new di.mongoose.Schema(this.json);
