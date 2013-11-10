@@ -1,0 +1,14 @@
+.table-responsive
+    table.table.table-striped(data-ng-init="query()")
+        thead
+            tr
+{%- for fieldName, field in fields %}
+                th {{ field.label }}
+{%- endfor %}
+        tbody
+            tr(ng-repeat="item in items")
+                td button.btn.btn.btn-primary(type='button', ng-click='select($index)') {{ '{{' }} item.id }}
+{%- for fieldName, field in fields %}
+                td {{ '{{' }} item.{{ loop.key }} }}
+{%- endfor %}
+                td button.btn.btn.btn-danger.icon.icon-trash(type='button', ng-click='delete($index)')

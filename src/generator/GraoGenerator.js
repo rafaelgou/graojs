@@ -1,8 +1,9 @@
-var path = require('path') ,
-    fs = require('fs-extra'),
-    swig = require('swig'),
-    path = require('path'),
-    prompt = require('prompt');
+var
+  path = require('path') ,
+  fs = require('fs-extra'),
+  swig = require('swig'),
+  path = require('path'),
+  prompt = require('prompt');
 
 var walk = function (dir) {
   var results = []
@@ -50,22 +51,39 @@ var GraoGenerator = function () {
                   ? JSON.parse(fs.readFileSync(defaultData))
                   : {};
 
-    Object.keys(this.defaults).forEach(function (key) {
-      if (self.config.properties[key]) {
-          self.config.properties[key]['default'] = defaults[key];
-      }
-    });
   }
 
   this.generate = function (args, force, callback) {
 
     console.log("\n" + ( 'Loading from: ' + this.skelFilename ).green + "\n");
 
+    args = this.prepareArgs(args, this.skelPath);
+
     var tpls = this.prepareTplPaths(this.config, this.skelPath, args);
 
     self.writeTpls(tpls, args, force, callback);
 
   };
+
+
+  this.prepareArgs = function (args, sourcePath) {
+
+    var newargs = {};
+
+    Object.keys(this.defaults).forEach(function (key) {
+        newargs[key] = self.defaults[key];
+    });
+
+    var tmpargs = args;
+
+    Object.keys(args).forEach(function (key) {
+      newargs[key] = tmpargs[key];
+    });
+
+    newargs['sourcePath'] = sourcePath;
+    return newargs;
+
+  }
 
   this.prepareTplPaths = function (config, sourcePath, args) {
 
@@ -126,6 +144,7 @@ var GraoGenerator = function () {
     });
 
     if (callback && typeof( callback ) === "function") {
+
       callback(path.join(process.cwd(), args['name']), force);
     }
 

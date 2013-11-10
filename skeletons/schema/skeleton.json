@@ -15,7 +15,8 @@
     "skeleton.json"
   ],
   "rewrites": {
-    "Schema.js": "bundles/{{name}}/schemas/{{name | capitalize}}Schema.js"
+    "Schema.js": "bundles/{{schema}}/{{schema | capitalize}}Schema.js",
+    "Validator.js": "bundles/{{schema}}/{{schema | capitalize}}Validator.js"
   },
   "conditions": []
 }

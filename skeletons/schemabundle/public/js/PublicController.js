@@ -1,13 +1,13 @@
-function {{ name | capitalize }}PublicController($scope, {{ name | lower }}, share, $log) 
+function {{ schema | capitalize }}PublicController($scope, {{ schema | lower }}, share, $log) 
 {	
 	$scope.share = share;
 	
 	$scope.createOrUpdate = function() 
 	{
-		if($scope.{{ name | lower }}._id != null)
-			{{ name | lower }}.update($scope.{{ name | lower }});
+		if($scope.{{ schema | lower }}._id != null)
+			{{ schema | lower }}.update($scope.{{ schema | lower }});
 		else
-			{{ name | lower }}.save($scope.{{ name | lower }});
+			{{ schema | lower }}.save($scope.{{ schema | lower }});
 		
 		$scope.reset();
 		$scope.query();
@@ -23,16 +23,16 @@ function {{ name | capitalize }}PublicController($scope, {{ name | lower }}, sha
 	
 	$scope.query = function()
 	{
-		$scope.items = {{ name | lower }}.query();		
+		$scope.items = {{ schema | lower }}.query();		
 	};
 	
 	$scope.select = function(index)
 	{
-		$scope.{{ name | lower }} = $scope.items[index];		
+		$scope.{{ schema | lower }} = $scope.items[index];		
 	};
 	
 	$scope.reset = function()
 	{
-		delete $scope.{{ name | lower }};		
+		delete $scope.{{ schema | lower }};		
 	};
 }
