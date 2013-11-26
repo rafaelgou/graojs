@@ -26,7 +26,7 @@ var GraoKernel = function(di) {
 		states: states,
 		stackTrace: stackTrace,
 		
-		name: 'kernel', 
+		name: 'GraoKernel',
 		message: 'loading...', 
 		mandatory: true,
 		style: styles.PRIMARY,
