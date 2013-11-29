@@ -4,7 +4,7 @@ graoJS
 graoJS - A full stack MVC NodeJS framework
 ------------------------------------------
 
-We are working hard to launch the first stable release at November 05, 2013.
+We are working hard to launch the first stable release at November/December, 2013.
 
 graoJS work with:
 
@@ -22,11 +22,11 @@ graoJS work with:
 -	Template Engine (swig, jade, but if you prefer others engines, it's very simple support it)
 -	Internationalization (nodejs i18n)
 
+http://graojs.org
+
 #### RoadMap
--	20/10/2013 – 1ª Alpha Release
--	25/10/2013 – 1ª Beta Release
--		Project freeze
--	05/11/2013 – 1ª Stable Release
+-	??/12/2013 – 1ª Beta Release
+-	??/12/2013 – 1ª Stable Release
 
 #### INSTALL
 
