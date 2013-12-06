@@ -19,7 +19,7 @@ form.form-horizontal(role='form', ng-submit='createOrUpdate()')
     {%- elseif field.type == 'select' %}
         {{ select(schema, fieldName, field) }}
     {%- else %}
-        {{ select(schema, fieldName, field) }}
+        {{ input_text(schema, fieldName, field) }}
     {%- endif %}
 {%- endmacro %}
 {%- macro input(type, schema, fieldName, field) %}

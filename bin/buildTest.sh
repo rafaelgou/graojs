@@ -8,4 +8,5 @@ cd ../../demo
 ./../graojs/bin/grao generate:schema --schema user --force
 cp ./../graojs/bin/UserSchema.js bundles/user/
 ./../graojs/bin/grao generate:schemabundle --schema user --force
+cat ./bundles/user/view/form.jade
 node index.js
