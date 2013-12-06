@@ -32,6 +32,7 @@
     "view/jade/form.jade": "bundles/{{schema}}/view/form.jade",
     "Controller.js": "bundles/{{schema}}/{{schema | capitalize}}Controller.js",
     "public/js/PublicController.js": "bundles/{{schema}}/public/js/{{schema | capitalize}}PublicController.js",
+    "public/js/PublicFactory.js": "bundles/{{schema}}/public/js/{{schema | capitalize}}PublicFactory.js",
     "Validator.js": "bundles/{{schema}}/{{schema | capitalize}}Validator.js",
     "Model.js": "bundles/{{schema}}/{{schema | capitalize}}.js",
     "Route.js": "bundles/{{schema}}/{{schema | capitalize}}Route.js"

@@ -2,13 +2,17 @@
     table.table.table-striped(data-ng-init="query()")
         thead
             tr
+                th ID
 {%- for fieldName, field in fields %}
                 th {{ field.label }}
 {%- endfor %}
+                th Actions
         tbody
             tr(ng-repeat="item in items")
-                td button.btn.btn.btn-primary(type='button', ng-click='select($index)') {{ '{{' }} item.id }}
+                td 
+                    button.btn.btn.btn-primary(type='button', ng-click='select($index)') {{ '{{' }} item._id }}
 {%- for fieldName, field in fields %}
                 td {{ '{{' }} item.{{ loop.key }} }}
 {%- endfor %}
-                td button.btn.btn.btn-danger.icon.icon-trash(type='button', ng-click='delete($index)')
+                td 
+                    button.btn.btn.btn-danger.icon.icon-trash(type='button', ng-click='destroy($index)')
