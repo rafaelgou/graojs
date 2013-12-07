@@ -3,9 +3,9 @@
 		a.navbar-brand(href='/')
 			| graoJS
 		// button.btn.btn-navbar(type='button', data-toggle='collapse', ng-init='isCollapsed = true', ng-click='isCollapsed = !isCollapsed', data-target='.navbar-collapse')
-		// 	span.icon-bar
-		// 	span.icon-bar
-		// 	span.icon-bar 
+		// span.icon-bar
+		// span.icon-bar
+		// span.icon-bar 
 		.navbar-collapse.collapse.navbar-responsive-collapse(collapse='isCollapsed')
 			ul.nav.navbar-nav
 				li
@@ -18,11 +18,11 @@
 						include adminmenu
 			button.btn.btn.btn-primary(type='button',
 										popover-popup-delay=1000,
-										popover-is-auto-open='{{share.notify.isAutoOpen}}', 
+										popover-is-auto-open='{{ '{{' }}share.notify.isAutoOpen}}', 
 										popover-trigger='click',  
-										popover-title='{{share.notify.title}}', 
-										popover='{{share.notify.content}}', 
-										popover-placement='bottom') {{share.notify.btn}}
+										popover-title='{{ '{{' }}share.notify.title}}', 
+										popover='{{ '{{' }}share.notify.content}}', 
+										popover-placement='bottom') {{ '{{' }}share.notify.btn}}
 			| 
 			img(src='/img/flag/pt-br.png',
 										popover-trigger='mouseenter',  
