@@ -1,6 +1,8 @@
 h3 {{ schema | capitalize }}
 form.form-horizontal(role='form', ng-submit='createOrUpdate()')
-{%- for fieldName, field in fields %}{{ render_field(schema, fieldName, field) }}{%- endfor %}
+{%- for fieldName, field in fields %}
+{{ render_field(schema, fieldName, field) }}
+{%- endfor %}
     .form-group
         button.btn.btn.btn-success(type='submit') Save
         |
@@ -10,7 +12,7 @@ form.form-horizontal(role='form', ng-submit='createOrUpdate()')
 
 {%- macro render_field(schema, fieldName, field) %}
     {%- set inputtypes = ['text', 'email', 'url', 'date', 'number', 'password', 'checkbox' ] %}
-    {%- if field.type in inputtypes %}
+    {%- if true %}
         {{ input(field.type, schema, fieldName, field) }}
     {%- elseif field.type == 'radio' %}
         {{ input_radio(schema, fieldName, field) }}

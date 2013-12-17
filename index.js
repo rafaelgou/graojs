@@ -45,42 +45,39 @@ var graoJS = function() {
 	this.servers = servers;
 	
 	this.start = function() {
-		kernel.logger.info('graoJS Starting...');
+	kernel.logger.info('graoJS Starting...');
 		kernel.logger.info('Open in your browser:');
 
-    if (process.env.PORT != undefined) {
-      servers.push(graoExpress.listen(process.env.PORT));
-      kernel.logger.info('http://localhost:' + process.env.PORT);
-    } else {
-      for(portIndex in kernel.config.ports)
-      {
-        servers.push(graoExpress.listen(kernel.config.ports[portIndex]));
-        kernel.logger.info('http://localhost:' + kernel.config.ports[portIndex]);
-      }
-    }
+	    if (process.env.PORT != undefined) {
+			servers.push(graoExpress.listen(process.env.PORT));
+			kernel.logger.info('http://localhost:' + process.env.PORT);
+	    } else {
+			for(portIndex in kernel.config.ports)
+			{
+				servers.push(graoExpress.listen(kernel.config.ports[portIndex]));
+				kernel.logger.info('http://localhost:' + kernel.config.ports[portIndex]);
+			}
+	    }
 	};
 	
 	this.stop = function() {
 		kernel.logger.info('graoJS Shutdown...');
-		for(serverIndex in servers)
-		{
+		for(serverIndex in servers) {
 			servers[serverIndex].close();
 			delete servers[serverIndex];
 		}
 		servers = new Array();
 	};
 	
-	this.restart = function(){
+	this.restart = function() {
 		this.stop();
 		this.start();
 	};
 	
-	this.status = function()
-	{
+	this.status = function() {
 		kernel.logger.info('graoJS Status...');
 		kernel.logger.info('Number of servers: '+servers.length);
 	};
 };
 
 module.exports = exports = graoJS;
-
