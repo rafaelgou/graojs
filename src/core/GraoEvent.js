@@ -35,27 +35,29 @@ var GraoEvent = function(di) {
 	/*err = new Error;
 	console.log(err.stack);*/
 	var trace = stackTrace.get();
-	/*console.log(trace[0].getFileName()+" - "+trace[0].getFunctionName()+" - "+trace[0].getMethodName());
-	console.log(trace[1].getFileName()+" - "+trace[1].getFunctionName()+" - "+trace[1].getMethodName());
-	console.log(trace[2].getFileName()+" - "+trace[2].getFunctionName()+" - "+trace[2].getMethodName());
-	*/
+	/*var i;
+	for(i = 0; i < 3; i++)
+	{
+		console.log(trace[i].getFileName()+" - "+trace[i].getFunctionName()+" - "+trace[i].getMethodName());
+	}*/
 	/**
 	 * initialEventRelated
 	 * finalEventRelated
 	 */
 	
 	this.id = 123; // global counter
-	this.name = (trace[1].getFunctionName() == "GraoKernel") ? "GraoKernel" : trace[2].getFunctionName();
+	this.name = (trace[1].getFunctionName() == "GraoKernel") ? "GraoKernel.js" : trace[2].getFileName();
+	this.name = this.name.split(".");
+	this.name = this.name[0];
+	this.name = this.name.split("/");
+	this.name = this.name[this.name.length-1];
+
 	this.message = di.message;
 	this.total = di.total;
 	this.mandatory = di.mandatory;
 	
-	if(this.name == 'GraoKernel')
-	{
-		handle = (handle == null) ? this : handle;
-		handle.events = (handle.events == null) ? new Array() : handle.events;	
-	}
-	
+	handle = (handle == null) ? this : handle;
+	handle.events = (handle.events == null) ? new Array() : handle.events;	
 	this.handle = $.handle = handle;
 
 	// style = {default,primary,success,info,warning,danger}
