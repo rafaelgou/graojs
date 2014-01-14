@@ -1,10 +1,15 @@
 extends ../../frontend/theme/layout
 block content
-	.row(ng-controller='{{ schema | capitalize }}PublicController')
-		h2 Dashboard {{ schema | capitalize }}s
-		.col-md-4
-			include form
-		.col-md-8
-			include grid
-	script(src='/js/{{ schema | lower }}/{{ schema | capitalize }}PublicFactory.js', type='text/javascript', charset='utf-8').
-	script(src='/js/{{ schema | lower }}/{{ schema | capitalize }}PublicController.js', type='text/javascript', charset='utf-8').
+  .container(ng-controller='{{ schema | capitalize }}PublicController', ng-init="clear(); selectWindow='query';")
+    h2 Dashboard {{ schema | capitalize }}s
+    .row
+      .col-md-12
+        include dashboard_actions
+    .row(ng-switch="selectWindow")
+      .col-md-12(ng-switch-when="query")
+        include grid
+      .col-md-6.col-md-offset-3(ng-switch-when="createOrUpdate")
+        include form
+    include dashboard_actions
+  script(src='/js/user/{{ schema | capitalize }}PublicFactory.js', type='text/javascript', charset='utf-8').
+  script(src='/js/user/{{ schema | capitalize }}PublicController.js', type='text/javascript', charset='utf-8').

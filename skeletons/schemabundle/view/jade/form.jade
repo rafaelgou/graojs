@@ -1,15 +1,14 @@
 h3 {{ schema | capitalize }}
-form.form-horizontal(role='form', ng-submit='createOrUpdate()')
-{%- for fieldName, field in fields %}
-{{ render_field(schema, fieldName, field) }}
-{%- endfor %}
-    .form-group
-        button.btn.btn.btn-success(type='submit') Save
-        |
-        button.btn.btn.btn-warning(type='button', ng-click='reset()') Reset
-        |
-        button.btn.btn.btn-danger(type='button', ng-click='remove()') Remove
-
+  small {{ '{{' }} {{ schema | lower }}._id }}
+form.form-horizontal(role='form', ng-submit='createOrUpdate(); query(); count(); clear(); showWindow("query");')
+{%- for fieldName, field in fields %} {{ render_field(schema, fieldName, field) }} {%- endfor %}  .form-group
+    button.btn.btn.btn-success(type='submit') Save
+    | 
+    button.btn.btn.btn-warning(type='button', ng-click='createOrUpdate(); clear(); showWindow("createOrUpdate");') Save and continue
+    | 
+    button.btn.btn.btn-danger(type='button', ng-click='{{ schema | lower }}.$delete(); query(); count(); clear(); showWindow("query");') Remove
+    | 
+    button.btn.btn.btn-default(type='button', ng-click='clear(); showWindow("query")') Cancel
 {%- macro render_field(schema, fieldName, field) %}
     {%- set inputtypes = ['text', 'email', 'url', 'date', 'number', 'password', 'checkbox' ] %}
     {%- if true %}
@@ -25,10 +24,8 @@ form.form-horizontal(role='form', ng-submit='createOrUpdate()')
     {%- endif %}
 {%- endmacro %}
 {%- macro input(type, schema, fieldName, field) %}
-    .form-group
-        input.form-control(type='{{ type }}', ng-model='{{ schema }}.{{ fieldName }}', placeholder='{{ field.label }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %})
-{%- endmacro %}
-{%- macro input_text(schema, fieldName, field) %}
+  .form-group
+    input.form-control(type='{{ type }}', ng-model='{{ schema }}.{{ fieldName }}', placeholder='{{ field.label }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %}) {%- endmacro %} {%- macro input_text(schema, fieldName, field) %}
 {{ input('text', schema, fieldName, field) }}
 {%- endmacro %}
 {%- macro input_date(schema, fieldName, field) %}
@@ -47,17 +44,17 @@ form.form-horizontal(role='form', ng-submit='createOrUpdate()')
 {{ input('checkbox', schema, fieldName, field) }}
 {%- endmacro %}
 {%- macro input_radio(schema, fieldName, field) %}
-    .form-group
+  .form-group
 {%- for option in field.options %}
-        input.form-control(type='{{ type }}', ng-model='{{ schema }}.{{ fieldName }}' value="{{ loop.key }}"{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %}) {{ option }}{%- endfor %}
+    input.form-control(type='{{ type }}', ng-model='{{ schema }}.{{ fieldName }}' value="{{ loop.key }}"{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %}) {{ option }}{%- endfor %}
 {%- endmacro %}
 {%- macro select(schema, fieldName, field) %}
-    .form-group
-        select.form-control(ng-model='{{ schema }}.{{ fieldName }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %})
+  .form-group
+    select.form-control(ng-model='{{ schema }}.{{ fieldName }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %})
 {%- for option in field.options %}
-        option.form-control(value="{{ loop.key }}") {{ option }}{%- endfor %}
+      option.form-control(value="{{ loop.key }}") {{ option }}{%- endfor %}
 {%- endmacro %}
 {%- macro textarea(schema, fieldName, field) %}
-   .form-group
-        textarea.form-control(ng-model='{{ schema }}.{{ fieldName }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %})
+  .form-group
+    textarea.form-control(ng-model='{{ schema }}.{{ fieldName }}'{% if field.attr %},{% for attr in field.attr %} {{ loop.key }}="{{ attr }}"{% endfor %}{% endif %})
 {%- endmacro %}

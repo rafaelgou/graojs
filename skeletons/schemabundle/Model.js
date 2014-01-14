@@ -1,8 +1,8 @@
 var {{ schema | capitalize }} = function(di) {
-	di.schemas.{{ schema | lower }}.mongoose.methods = {
-	};
+  di.schemas.{{ schema | lower }}.mongoose.methods = {
+  };
 
-	return di.mongoose.model("{{ schema | capitalize }}", di.schemas.{{ schema | lower }}.mongoose);
+  return di.mongoose.model("{{ schema | capitalize }}", di.schemas.{{ schema | lower }}.mongoose);
 };
 
 module.exports = exports = {{ schema | capitalize }};
