@@ -99,7 +99,7 @@ var GraoGeneratorCommands = function (di) {
 
             var schemaCapitalized = result['schema'].charAt(0).toUpperCase() + result['schema'].substring(1).toLowerCase();
 
-            var schemaPath = 'bundles/' + result['schema'] + '/' + schemaCapitalized + 'Schema.js';
+            var schemaPath = 'gen/' + schemaCapitalized + 'Schema.js';
 
             fs.exists(path.join(process.cwd(), schemaPath), function (exists) {
 
@@ -111,6 +111,9 @@ var GraoGeneratorCommands = function (di) {
                     result['jadeMacrosPath'] = path.join(generator.skelPath, "/view/jade/field_macros.jade");
 
                     generator.generate(result, force);
+
+                    fs.writeFileSync(path.join(process.cwd(), 'bundles/'+result['schema']+'/'+schemaCapitalized+'Schema.js'), 
+                        fs.readFileSync(path.join(process.cwd(), schemaPath), 'utf-8'), 'utf-8');
 
                 } else {
                     console.log(( 'ERROR: ' + schemaPath + ' doesn\'t exist. Aborting').red);

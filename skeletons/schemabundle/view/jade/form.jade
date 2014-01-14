@@ -1,5 +1,5 @@
 h3 {{ schema | capitalize }}
-  small {{ '{{' }} {{ schema | lower }}._id }}
+  small {{ ' {{' }} {{ schema | lower }}._id }}
 form.form-horizontal(role='form', ng-submit='createOrUpdate(); query(); count(); clear(); showWindow("query");')
 {%- for fieldName, field in fields %} {{ render_field(schema, fieldName, field) }} {%- endfor %}  .form-group
     button.btn.btn.btn-success(type='submit') Save
