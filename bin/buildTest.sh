@@ -5,7 +5,7 @@ ls -laht demo/node_modules/graojs/
 mv demo ../../
 cd ../../demo
 ./../graojs/bin/grao generate:schema --schema user --force
-cp ./../graojs/bin/UserSchema.js gen/
+cp ./../graojs/bin/UserSchemaFull.js gen/UserSchema.js
 ./../graojs/bin/grao generate:schemabundle --schema user --force
 cat ./bundles/user/view/form.jade
 node index.js
