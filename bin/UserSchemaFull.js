@@ -80,9 +80,9 @@ var UserSchema = function(di) {
   news : {
     type: Boolean,
     graoui: {
-      label: "News",
+      label: "Do you want to receive news ?",
       type: 'checkbox',
-      options: {"IS_NEWS": "Do you wanna receive news ?"} ,
+      value: "IS_NEWS",
       attr: { checked: "true" }
     }
   },
@@ -90,8 +90,9 @@ var UserSchema = function(di) {
     type: Array,
     graoui: {
       label: "Languages",
-      type: 'checkbox',
-      options: { "PHP": "PHP Language", "JAVA": "Java Language", "JAVASCRIPT": "Javascript Language", "PYTHON": "Python Language", "RUBY": "Ruby Language" }
+      type: 'select',
+      options: { "PHP": "PHP Language", "JAVA": "Java Language", "JAVASCRIPT": "Javascript Language", "PYTHON": "Python Language", "RUBY": "Ruby Language" },
+      attr: { multiple: true }
     }
   },
   distros : {
