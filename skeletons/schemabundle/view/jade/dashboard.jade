@@ -1,7 +1,7 @@
 extends ../../frontend/theme/layout
 block content
   .container(ng-controller='{{ schema | capitalize }}PublicController', ng-init="clear(); selectWindow='query';")
-    h2 Dashboard {{ schema | capitalize }}s
+    h2 {{ schema | capitalize }}s
     .row
       .col-md-12
         include dashboard_actions
@@ -11,5 +11,5 @@ block content
       .col-md-6.col-md-offset-3(ng-switch-when="createOrUpdate")
         include form
     include dashboard_actions
-  script(src='/js/user/{{ schema | capitalize }}PublicFactory.js', type='text/javascript', charset='utf-8').
-  script(src='/js/user/{{ schema | capitalize }}PublicController.js', type='text/javascript', charset='utf-8').
+  script(src='/js/{{ schema | lower }}/{{ schema | capitalize }}PublicFactory.js', type='text/javascript', charset='utf-8').
+  script(src='/js/{{ schema | lower }}/{{ schema | capitalize }}PublicController.js', type='text/javascript', charset='utf-8').

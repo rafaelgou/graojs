@@ -4,8 +4,15 @@ rm -rf demo ../../demo
 ls -laht demo/node_modules/graojs/
 mv demo ../../
 cd ../../demo
+# User
 ./../graojs/bin/grao generate:schema --schema user --force
 cp ./../graojs/bin/UserSchemaFull.js gen/UserSchema.js
 ./../graojs/bin/grao generate:schemabundle --schema user --force
 cat ./bundles/user/view/form.jade
+# Group
+./../graojs/bin/grao generate:schema --schema group --force
+cp ./../graojs/bin/GroupSchema.js gen/GroupSchema.js
+./../graojs/bin/grao generate:schemabundle --schema group --force
+cat ./bundles/group/view/form.jade
+
 node index.js
