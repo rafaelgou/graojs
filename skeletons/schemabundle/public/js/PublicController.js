@@ -3,6 +3,14 @@ function {{ schema | capitalize }}PublicController($scope, {{ schema | lower }},
   $scope.filterData = {};
   $scope.statusData = { totality: 0, filtered: 0, listing: 0 };
 
+{%- for fieldName, field in fields %} 
+  {%- if field.ref %}
+  $http.get("/{{ field.ref | lower }}")
+    .success(function (data, status, headers, config){
+      $scope.{{ field.ref | lower }}s = data;
+    })
+    .error(function (data, status, headers, config){});
+  {%- endif %}{%- endfor %} 
   $scope.showWindow = function(windowName) {
     $scope.selectWindow = windowName;
    };

@@ -6,25 +6,19 @@ var path = require('path') ,
     validate = require('mongoose-validator').validate;
 
 var walk = function (dir) {
-
     var results = []
     var list = fs.readdirSync(dir)
-
     list.forEach(function (file) {
-
         file = dir + '/' + file
         var stat = fs.statSync(file)
         if (stat && stat.isDirectory()) results = results.concat(walk(file))
         else results.push(file)
     });
-
     return results;
 }
 
 var GraoGeneratorCommands = function (di) {
-
     var self = this;
-
     this.id = 'generate';
     this.title = 'graoJS Generator commands';
     this.actions = [
@@ -59,22 +53,16 @@ var GraoGeneratorCommands = function (di) {
     ];
 
     this.runGenerateApp = function (argv, prompt, schema) {
-
         this.prepareGenerator('app', argv);
-
         prompt.get(generator.config, function (err, result) {
-
             if (err) {
                 return onErr(err);
             }
-
             var force = argv.hasOwnProperty('force')
                 ? argv.force
                 : false;
-
             generator.generate(result, force, self.copyGraoDeps(path.join(process.cwd(), result['name']), force));
         });
-
     }
 
     this.runGenerateBundle = function (argv, prompt, schema) {
@@ -84,62 +72,45 @@ var GraoGeneratorCommands = function (di) {
     }
 
     this.runGenerateSchemaBundle = function (argv, prompt, schema) {
-
         this.prepareGenerator('schemabundle', argv);
-
         prompt.get(generator.config, function (err, result) {
-
             if (err) {
                 return onErr(err);
             }
-
             var force = argv.hasOwnProperty('force')
                 ? argv.force
                 : false;
-
             var schemaCapitalized = result['schema'].charAt(0).toUpperCase() + result['schema'].substring(1).toLowerCase();
-
             var schemaPath = 'gen/' + schemaCapitalized + 'Schema.js';
-
             fs.exists(path.join(process.cwd(), schemaPath), function (exists) {
-
                 if (exists) {
-
                     var schemaFields = self.prepareSchemaFields(result['schema'], path.join(process.cwd(), schemaPath));
-
                     result['fields'] = schemaFields;
+                    /** 
+                    * @FIXME
+                    * Dead code ?
                     result['jadeMacrosPath'] = path.join(generator.skelPath, "/view/jade/field_macros.jade");
-
+                    */
                     generator.generate(result, force);
-
                     fs.writeFileSync(path.join(process.cwd(), 'bundles/'+result['schema']+'/'+schemaCapitalized+'Schema.js'), 
                         fs.readFileSync(path.join(process.cwd(), schemaPath), 'utf-8'), 'utf-8');
-
                 } else {
                     console.log(( 'ERROR: ' + schemaPath + ' doesn\'t exist. Aborting').red);
                     return false;
                 }
-
             });
-
         });
-
     }
 
     this.runGenerateSchema = function (argv, prompt, schema) {
-
         this.prepareGenerator('schema', argv);
-
         prompt.get(generator.config, function (err, result) {
-
             if (err) {
                 return onErr(err);
             }
-
             var force = argv.hasOwnProperty('force')
                 ? argv.force
                 : false;
-
             generator.generate(result, force, function () {
                 console.log(
                     "Edit the schema and add your fields" +
@@ -147,47 +118,43 @@ var GraoGeneratorCommands = function (di) {
                         " to generate a CRUD bundle for your schema \n"
                 )
             });
-
         });
-
     }
 
     this.prepareGenerator = function (type, argv) {
-
         // TODO accept --skeleton to override skeleton
         var skeleton = argv.hasOwnProperty('skeleton')
             ? argv.skeleton
             : null;
-
         generator.init(type, skeleton);
-
     }
 
     this.prepareSchemaFields = function (schema, schemaPath) {
-
         var validators = {};
         validators[schema] = true;
-
         var diSchema = {
             mongoose: mongoose,
             validate: validate,
             validators: validators
         }
-
         var modelSchema = new (require(schemaPath))(diSchema);
-
         var fields = {};
-
         Object.keys(modelSchema.json).forEach(function (fieldName) {
-
             if (modelSchema.json[fieldName].graoui != undefined) {
                 fields[fieldName] = modelSchema.json[fieldName].graoui;
+                if(modelSchema.json[fieldName].ref != null) {
+                    fields[fieldName].ref = modelSchema.json[fieldName].ref;
+                }
+            } else if (modelSchema.json[fieldName][0] != null && modelSchema.json[fieldName][0].graoui != null) {
+                fields[fieldName] = modelSchema.json[fieldName][0].graoui;
+                if(modelSchema.json[fieldName][0].ref != null){
+                    fields[fieldName].ref = modelSchema.json[fieldName][0].ref;
+                } 
             }
-
         });
-
+        console.log("SCHEMA: "+schema);
+        console.log("FIELDS: %j", fields);
         return fields;
-
     }
 
     this.copyGraoDeps = function (appPath, force) {
@@ -200,7 +167,6 @@ var GraoGeneratorCommands = function (di) {
         if(!fs.existsSync(appPath+"/node_modules/graojs") || force)
             fs.copy(__dirname+"/../..", appPath+"/node_modules/graojs");
     }
-
 }
 
 function onErr(err) {

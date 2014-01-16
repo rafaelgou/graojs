@@ -4,7 +4,16 @@ var UserSchema = function(di) {
 
   this.json = {
     id : di.mongoose.Schema.ObjectId,
-    groups: [{ type: di.mongoose.Schema.Types.ObjectId, ref: 'Group' }],
+    groups: [{ 
+      type: di.mongoose.Schema.Types.ObjectId, 
+      ref: 'Group',
+      graoui: {
+        label: "Groups",
+        fieldRefLabel: "name",
+        type: "select",
+        attr: { multiple: true }
+      }
+    }],
     name : {
       type : String,
       required : false,
@@ -83,7 +92,7 @@ var UserSchema = function(di) {
         label: "Do you want to receive news ?",
         type: 'checkbox',
         value: "IS_NEWS",
-        attr: { checked: "true" }
+        attr: { checked: true }
       }
     },
     languages : {

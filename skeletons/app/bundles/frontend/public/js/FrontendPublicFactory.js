@@ -1,4 +1,4 @@
-GraoJS.factory('share', ['config', '$timeout', '$http', function(config, $timeout, $http) {
+graoJS.factory('share', ['config', '$timeout', '$http', function(config, $timeout, $http) {
   var share = {
       notify: { title: 'Notify...', content: 'Notify Content!', btn: 'N', isAutoOpen: true },
       events: function(){

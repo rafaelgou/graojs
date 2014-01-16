@@ -1,5 +1,4 @@
 var FrontendRoute = function (di) {
-	
 	di.graoExpress.get('/', function(req, res) {
     {% if template_engine == 'jade' %}
 		res.render('frontend/view/index');

@@ -21,7 +21,16 @@ var GroupSchema = function(di) {
         attr: { placeholder: "Description" }
       }
     },
-    users: [{ type: di.mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    users: [{ 
+      type: di.mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
+      graoui: {
+        label: "Users",
+        fieldRefLabel: "name",
+        type: "select",
+        attr: { multiple: true }
+      }
+    }]
   };
 
   this.mongoose = new di.mongoose.Schema(this.json);
